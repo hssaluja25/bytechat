@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "619221903788",
+    "project_id": "learing-auth-mkay",
+    "storage_bucket": "learing-auth-mkay.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619221903788:android:74b23104230dcbe66db209",
+        "android_client_info": {
+          "package_name": "com.example.learning_once_again"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKyo3_uaVQDU3G6FXReMKtAmP04uORTV0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
