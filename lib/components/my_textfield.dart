@@ -4,12 +4,14 @@ class MyTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final bool obscureText;
+  final TextEditingController? passwordController;
 
   const MyTextField({
     super.key,
     required this.controller,
     required this.hintText,
     required this.obscureText,
+    this.passwordController,
   });
 
   @override
@@ -28,6 +30,9 @@ class MyTextField extends StatelessWidget {
               !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                   .hasMatch(controller.text)) {
             return 'Invalid email';
+          } else if (hintText == 'Confirm password' &&
+              value != passwordController?.text) {
+            return 'Passwords do not match';
           }
           return null;
         },
