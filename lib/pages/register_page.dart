@@ -107,9 +107,13 @@ class RegisterPage extends StatelessWidget {
                           builder: (context) {
                             return AlertDialog(
                               title: Text(
-                                error.hashCode == 392263703
+                                error.toString() ==
+                                        '[firebase_auth/email-already-in-use] The email address is already in use by another account.'
                                     ? 'This account already exists'
-                                    : "Couldn't create an account. Please try again later.",
+                                    : error.toString() ==
+                                            '[firebase_auth/network-request-failed] A network error (such as timeout, interrupted connection or unreachable host) has occurred.'
+                                        ? 'Check your internet connection'
+                                        : "Couldn't create an account. Please try again later.",
                                 style: const TextStyle(fontSize: 18),
                               ),
                               actions: [

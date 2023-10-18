@@ -103,7 +103,7 @@ class LoginPage extends StatelessWidget {
                         Navigator.pop(context);
                         // Automatically the 'user' stream would detect a change in the auth state and push the home page.
                         // so we don't need to push the home page ourselves.
-                      } on Exception catch (_) {
+                      } on Exception catch (error) {
                         if (!context.mounted) return;
                         Navigator.pop(context);
                         showDialog(
@@ -111,9 +111,12 @@ class LoginPage extends StatelessWidget {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: const Text(
-                                "Invalid login credentials",
-                                style: TextStyle(fontSize: 18),
+                              title: Text(
+                                error.toString() ==
+                                        '[firebase_auth/network-request-failed] A network error (such as timeout, interrupted connection or unreachable host) has occurred.'
+                                    ? 'Check your internet connection'
+                                    : "Invalid login credentials",
+                                style: const TextStyle(fontSize: 18),
                               ),
                               actions: [
                                 TextButton(

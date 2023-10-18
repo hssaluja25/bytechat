@@ -1,4 +1,4 @@
-# learning_once_again
+# Flutter Auth
 
 A new Flutter project.
 
