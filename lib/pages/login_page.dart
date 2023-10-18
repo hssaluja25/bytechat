@@ -72,9 +72,52 @@ class LoginPage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text(
-                        'Forgot Password?',
-                        style: TextStyle(color: Colors.grey[600]),
+                      GestureDetector(
+                        onTap: () async {
+                          try {
+                            await Auth(auth: auth)
+                                .forgotPassword(email: usernameController.text);
+                            ScaffoldMessenger.of(context)
+                              ..removeCurrentSnackBar()
+                              ..showSnackBar(
+                                SnackBar(
+                                  content:
+                                      const Text('Password reset email sent'),
+                                  duration: const Duration(seconds: 3),
+                                  action: SnackBarAction(
+                                      label: 'Okay',
+                                      onPressed: () {
+                                        ScaffoldMessenger.of(context)
+                                            .removeCurrentSnackBar();
+                                      }),
+                                ),
+                              );
+                          } on Exception catch (error) {
+                            ScaffoldMessenger.of(context)
+                              ..removeCurrentSnackBar()
+                              ..showSnackBar(
+                                SnackBar(
+                                  content: error.toString() ==
+                                              '[firebase_auth/invalid-email] The email address is badly formatted.' ||
+                                          error.toString() ==
+                                              '[firebase_auth/channel-error] Unable to establish connection on channel.'
+                                      ? const Text('Invalid email')
+                                      : const Text('Something went wrong...'),
+                                  duration: const Duration(seconds: 3),
+                                  action: SnackBarAction(
+                                      label: 'Okay',
+                                      onPressed: () {
+                                        ScaffoldMessenger.of(context)
+                                            .removeCurrentSnackBar();
+                                      }),
+                                ),
+                              );
+                          }
+                        },
+                        child: Text(
+                          'Forgot Password?',
+                          style: TextStyle(color: Colors.grey[600]),
+                        ),
                       ),
                     ],
                   ),

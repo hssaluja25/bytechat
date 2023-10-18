@@ -21,4 +21,8 @@ class Auth {
   Future<void> signOut() async {
     await auth.signOut();
   }
+
+  Future<void> forgotPassword({required String email}) async {
+    await auth.sendPasswordResetEmail(email: email);
+  }
 }
