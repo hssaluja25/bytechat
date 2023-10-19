@@ -80,7 +80,7 @@ class RegisterPage extends StatelessWidget {
 
                 // register button
                 MyButton(
-                  btnType: 'Register',
+                  textOnBtn: 'Register',
                   onTap: () async {
                     if (_registerFormKey.currentState!.validate()) {
                       // form is valid

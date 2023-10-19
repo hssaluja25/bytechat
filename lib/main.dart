@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:learning_once_again/firebase_options.dart';
 import 'package:learning_once_again/pages/auth_page.dart';
-import 'package:learning_once_again/pages/home_page.dart';
+import 'package:learning_once_again/pages/verify_email_page.dart';
 import 'package:learning_once_again/services/auth.dart';
 
 Future main() async {
@@ -16,7 +16,6 @@ class MyApp extends StatelessWidget {
   MyApp({super.key});
   // We have created instances of FirebaseAuth and FirebaseFirestore here instead of creating them in the auth file otherwise everytime Auth is used instances of type FirebaseAuth and FirebaseFirestore would be created
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  // final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +28,7 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(useMaterial3: true),
               home: snapshot.data == null
                   ? AuthPage(auth: _auth)
-                  : Home(auth: _auth),
+                  : VerifyEmailPage(auth: _auth),
             );
           } else if (snapshot.hasError) {
             return MaterialApp(

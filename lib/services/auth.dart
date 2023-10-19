@@ -25,4 +25,14 @@ class Auth {
   Future<void> forgotPassword({required String email}) async {
     await auth.sendPasswordResetEmail(email: email);
   }
+
+  Future<void> verifyUser({required User? userInfo}) async {
+    // final crtUser = FirebaseAuth.instance.currentUser;
+    // final actionCodeSettings = ActionCodeSettings(
+    //   url: "http://www.example.com/verify?email=${crtUser?.email}",
+    //   androidPackageName: "com.example.android",
+    // );
+    // await userInfo?.sendEmailVerification(actionCodeSettings);
+    await userInfo?.sendEmailVerification();
+  }
 }

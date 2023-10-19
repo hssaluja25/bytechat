@@ -127,7 +127,7 @@ class LoginPage extends StatelessWidget {
 
                 // sign in button
                 MyButton(
-                  btnType: 'Login',
+                  textOnBtn: 'Login',
                   onTap: () async {
                     if (_loginFormKey.currentState!.validate()) {
                       // form is valid
