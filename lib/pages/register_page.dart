@@ -18,27 +18,32 @@ class RegisterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double ht = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SafeArea(
-        child: Center(
-          child: Form(
-            key: _registerFormKey,
-            child: ListView(
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                const SizedBox(height: 50),
+        child: Form(
+          key: _registerFormKey,
+          child: ListView(
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              SizedBox(height: ht > 800 ? ht * 0.0534188 : ht * 0.05),
 
-                // logo
-                const Icon(
+              // logo
+              SizedBox(
+                height: ht > 800 ? ht * 0.1068376 : ht * 0.1,
+                child: const Icon(
                   Icons.lock,
                   size: 100,
                 ),
+              ),
 
-                const SizedBox(height: 50),
+              SizedBox(height: ht * 0.0534188),
 
-                // Get started today, it's quick!
-                Center(
+              // Get started today, it's quick!
+              SizedBox(
+                height: ht > 800 ? ht * 0.024573 : ht * 0.031,
+                child: Center(
                   child: Text(
                     "Get started today, it's quick!",
                     style: TextStyle(
@@ -47,39 +52,51 @@ class RegisterPage extends StatelessWidget {
                     ),
                   ),
                 ),
+              ),
 
-                const SizedBox(height: 25),
+              SizedBox(height: ht * 0.02671),
 
-                // username textfield
-                MyTextField(
+              // username textfield
+              SizedBox(
+                height: ht * 0.068376,
+                child: MyTextField(
                   controller: usernameController,
                   hintText: 'Username',
                   obscureText: false,
                 ),
+              ),
 
-                const SizedBox(height: 10),
+              SizedBox(height: ht * 0.01068),
 
-                // password textfield
-                MyTextField(
+              // password textfield
+              SizedBox(
+                height: ht * 0.068376,
+                child: MyTextField(
                   controller: passwordController,
                   hintText: 'Password',
                   obscureText: true,
                 ),
+              ),
 
-                const SizedBox(height: 10),
+              SizedBox(height: ht * 0.01068),
 
-                // confirm password textfield
-                MyTextField(
+              // confirm password textfield
+              SizedBox(
+                height: ht * 0.068376,
+                child: MyTextField(
                   controller: confirmPasswordController,
                   hintText: 'Confirm password',
                   obscureText: true,
                   passwordController: passwordController,
                 ),
+              ),
 
-                const SizedBox(height: 25),
+              SizedBox(height: ht > 800 ? ht * 0.02671 : ht * 0.02),
 
-                // register button
-                MyButton(
+              // register button
+              SizedBox(
+                height: ht > 800 ? ht * 0.07799 : ht * 0.11,
+                child: MyButton(
                   textOnBtn: 'Register',
                   onTap: () async {
                     if (_registerFormKey.currentState!.validate()) {
@@ -132,11 +149,14 @@ class RegisterPage extends StatelessWidget {
                     }
                   },
                 ),
+              ),
 
-                const SizedBox(height: 50),
+              SizedBox(height: ht > 800 ? ht * 0.0534188 : ht * 0.05),
 
-                // or continue with
-                Padding(
+              // or continue with
+              SizedBox(
+                height: ht > 800 ? ht * 0.021367 : ht * 0.025,
+                child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Row(
                     children: [
@@ -162,11 +182,14 @@ class RegisterPage extends StatelessWidget {
                     ],
                   ),
                 ),
+              ),
 
-                const SizedBox(height: 50),
+              SizedBox(height: ht * 0.0534188),
 
-                // google + apple sign in buttons
-                const Row(
+              // google + apple sign in buttons
+              SizedBox(
+                height: ht * 0.08761,
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // google button
@@ -178,11 +201,14 @@ class RegisterPage extends StatelessWidget {
                     SquareTile(imagePath: 'lib/images/apple.png')
                   ],
                 ),
+              ),
 
-                const SizedBox(height: 50),
+              SizedBox(height: ht * 0.0534188),
 
-                // already have an account? log in
-                Row(
+              // already have an account? log in
+              SizedBox(
+                height: ht > 800 ? ht * 0.021367 : ht * 0.029,
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
@@ -201,9 +227,11 @@ class RegisterPage extends StatelessWidget {
                       ),
                     ),
                   ],
-                )
-              ],
-            ),
+                ),
+              ),
+
+              SizedBox(height: ht * 0.1132479),
+            ],
           ),
         ),
       ),

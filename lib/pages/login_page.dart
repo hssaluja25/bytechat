@@ -16,27 +16,33 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double ht = MediaQuery.of(context).size.height;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey[300],
       body: SafeArea(
-        child: Center(
-          child: Form(
-            key: _loginFormKey,
-            child: ListView(
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                const SizedBox(height: 50),
+        child: Form(
+          key: _loginFormKey,
+          child: Column(
+            children: [
+              // Space at the very top
+              SizedBox(height: ht * 0.055),
 
-                // logo
-                const Icon(
+              // logo
+              SizedBox(
+                height: ht * 0.1118568,
+                child: const Icon(
                   Icons.lock,
                   size: 100,
                 ),
+              ),
 
-                const SizedBox(height: 50),
+              SizedBox(height: ht * 0.055928),
 
-                // welcome back, you've been missed!
-                Center(
+              // welcome back, you've been missed!
+              SizedBox(
+                height: ht * 0.032,
+                child: Center(
                   child: Text(
                     'Welcome back you\'ve been missed!',
                     style: TextStyle(
@@ -45,29 +51,38 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                 ),
+              ),
 
-                const SizedBox(height: 25),
+              SizedBox(height: ht * 0.02796),
 
-                // username textfield
-                MyTextField(
+              // username textfield
+              SizedBox(
+                height: ht * 0.071588,
+                child: MyTextField(
                   controller: usernameController,
                   hintText: 'Username',
                   obscureText: false,
                 ),
+              ),
 
-                const SizedBox(height: 10),
+              SizedBox(height: ht * 0.0111857),
 
-                // password textfield
-                MyTextField(
+              // password textfield
+              SizedBox(
+                height: ht * 0.071588,
+                child: MyTextField(
                   controller: passwordController,
                   hintText: 'Password',
                   obscureText: true,
                 ),
+              ),
 
-                const SizedBox(height: 10),
+              SizedBox(height: ht * 0.0111857),
 
-                // forgot password?
-                Padding(
+              // forgot password?
+              SizedBox(
+                height: ht * 0.027,
+                child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -122,11 +137,14 @@ class LoginPage extends StatelessWidget {
                     ],
                   ),
                 ),
+              ),
 
-                const SizedBox(height: 25),
+              SizedBox(height: ht * 0.02796),
 
-                // sign in button
-                MyButton(
+              // sign in button
+              SizedBox(
+                height: ht > 820 ? ht * 0.081655 : ht * 0.097,
+                child: MyButton(
                   textOnBtn: 'Login',
                   onTap: () async {
                     if (_loginFormKey.currentState!.validate()) {
@@ -176,11 +194,14 @@ class LoginPage extends StatelessWidget {
                     }
                   },
                 ),
+              ),
 
-                const SizedBox(height: 50),
+              SizedBox(height: ht * 0.055928),
 
-                // or continue with
-                Padding(
+              // or continue with
+              SizedBox(
+                height: ht * 0.02237,
+                child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Row(
                     children: [
@@ -206,11 +227,14 @@ class LoginPage extends StatelessWidget {
                     ],
                   ),
                 ),
+              ),
 
-                const SizedBox(height: 50),
+              SizedBox(height: ht * 0.055928),
 
-                // google + apple sign in buttons
-                const Row(
+              // google + apple sign in buttons
+              SizedBox(
+                height: ht * 0.09172,
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // google button
@@ -222,11 +246,14 @@ class LoginPage extends StatelessWidget {
                     SquareTile(imagePath: 'lib/images/apple.png')
                   ],
                 ),
+              ),
 
-                const SizedBox(height: 50),
+              SizedBox(height: ht * 0.055928),
 
-                // not a member? register now
-                Row(
+              // not a member? register now
+              SizedBox(
+                height: ht * 0.032,
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
@@ -245,9 +272,12 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                   ],
-                )
-              ],
-            ),
+                ),
+              ),
+              // SizedBox(
+              //   height: ht * 0.120805,
+              // )
+            ],
           ),
         ),
       ),

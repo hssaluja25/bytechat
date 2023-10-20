@@ -84,84 +84,90 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    final double ht = MediaQuery.of(context).size.height;
+    final double wd = MediaQuery.of(context).size.width;
     return isEmailVerified
         ? Home(auth: widget.auth)
         : Scaffold(
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Spacer(flex: 3),
-                Expanded(
-                  flex: 4,
+                SizedBox(height: ht * 0.12),
+                SizedBox(
+                  height: ht > 800 ? ht * 0.15 : ht * 0.1,
                   child: Image.asset('assets/images/arroba.png'),
                 ),
-                const Spacer(flex: 2),
-                const Expanded(
-                  flex: 2,
+                SizedBox(height: ht * 0.03),
+                SizedBox(
+                  height: ht * 0.06,
+                  // height: ht > 800 ? ht * 0.06 : ht * 0.03,
                   child: Text(
                     'Verify your email address',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: ht > 800 ? 24 : 21,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
-                const Spacer(flex: 1),
-                Expanded(
-                  flex: 6,
-                  child: SizedBox(
-                    width: size.width / 1.2,
-                    child: const Text(
-                      'We have just send an email verification link on your email. Please check your email.\nIf not auto redirected after verification, click on the Continue button.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
+                SizedBox(
+                  height: ht * 0.005,
+                ),
+                SizedBox(
+                  height: ht > 800 ? ht * 0.18 : ht * 0.23,
+                  width: wd > 385 ? wd * 0.85648 : wd * 0.85,
+                  child: Text(
+                    'We have just sent an email verification link to your email. Please check your email.\nIf not auto redirected after verification, click on the Continue button.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: ht > 800 ? 20 : 16,
                     ),
                   ),
                 ),
                 // Continue button
-                Expanded(
-                  flex: 3,
+                SizedBox(
+                  height: ht > 800 ? ht * 0.07799 : ht * 0.095,
                   child: MyButton(
                     onTap: checkVerified,
                     textOnBtn: 'Continue',
                   ),
                 ),
-                const Spacer(flex: 3),
+                SizedBox(height: ht * 0.12),
                 // Resend E-Mail link
-                Expanded(
-                  flex: 1,
+                SizedBox(
+                  height: ht * 0.03098,
                   child: GestureDetector(
                     onTap: resendEmail,
                     child: Text(
                       'Resend email link',
-                      style:
-                          TextStyle(color: Colors.blue.shade400, fontSize: 20),
+                      style: TextStyle(
+                          color: Colors.blue.shade400,
+                          fontSize: ht > 800 ? 20 : 18),
                     ),
                   ),
                 ),
-                const Spacer(flex: 1),
+                SizedBox(
+                  height: ht * 0.025,
+                ),
                 // Back to login
-                Expanded(
-                  flex: 1,
+                SizedBox(
+                  height: ht > 800 ? ht * 0.03098 : ht * 0.035,
                   child: GestureDetector(
                     onTap: widget.auth.signOut,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        FaIcon(
-                          FontAwesomeIcons.arrowLeftLong,
-                          color: Colors.blue.shade400,
-                        ),
+                        FaIcon(FontAwesomeIcons.arrowLeftLong,
+                            color: Colors.blue.shade400),
                         Text(
                           '  Back to login',
                           style: TextStyle(
-                              color: Colors.blue.shade400, fontSize: 20),
+                              color: Colors.blue.shade400,
+                              fontSize: ht > 800 ? 20 : 18),
                         ),
                       ],
                     ),
                   ),
                 ),
-                const Spacer(flex: 6),
               ],
             ),
           );
