@@ -25,7 +25,8 @@ class Home extends StatelessWidget {
                 await Auth(auth: auth).signOut();
                 if (!context.mounted) return;
                 Navigator.pop(context);
-              } on Exception catch (_) {
+              } on Exception catch (error) {
+                print(error);
                 if (!context.mounted) return;
                 Navigator.pop(context);
                 showDialog(

@@ -189,16 +189,32 @@ class RegisterPage extends StatelessWidget {
               // google + apple sign in buttons
               SizedBox(
                 height: ht * 0.08761,
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // google button
-                    SquareTile(imagePath: 'lib/images/google.png'),
+                    GestureDetector(
+                      onTap: () async {
+                        try {
+                          await GoogleAuth().signInWithGoogle();
+                        } catch (e) {
+                          ScaffoldMessenger.of(context)
+                            ..removeCurrentSnackBar()
+                            ..showSnackBar(SnackBar(
+                                content: Text(e.toString().startsWith(
+                                        'PlatformException(network_error')
+                                    ? 'Check your internet connection'
+                                    : 'Google sign in cancelled')));
+                        }
+                      },
+                      child:
+                          const SquareTile(imagePath: 'lib/images/google.png'),
+                    ),
 
-                    SizedBox(width: 25),
+                    const SizedBox(width: 25),
 
                     // apple button
-                    SquareTile(imagePath: 'lib/images/apple.png')
+                    const SquareTile(imagePath: 'lib/images/apple.png')
                   ],
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 /// Provide authentication stream
 class Auth {
@@ -19,6 +20,9 @@ class Auth {
   }
 
   Future<void> signOut() async {
+    if (await GoogleSignIn().isSignedIn()) {
+      await GoogleSignIn().disconnect();
+    }
     await auth.signOut();
   }
 
@@ -34,5 +38,24 @@ class Auth {
     // );
     // await userInfo?.sendEmailVerification(actionCodeSettings);
     await userInfo?.sendEmailVerification();
+  }
+}
+
+class GoogleAuth {
+  Future signInWithGoogle() async {
+    // Begin interactive process
+    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+
+    // obtain auth details from request
+    final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+
+    // create a new credential from user
+    final credential = GoogleAuthProvider.credential(
+      accessToken: gAuth.accessToken,
+      idToken: gAuth.idToken,
+    );
+
+    // now sign in
+    return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 }

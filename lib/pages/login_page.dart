@@ -176,7 +176,7 @@ class LoginPage extends StatelessWidget {
                                 error.toString() ==
                                         '[firebase_auth/network-request-failed] A network error (such as timeout, interrupted connection or unreachable host) has occurred.'
                                     ? 'Check your internet connection'
-                                    : "Invalid login credentials",
+                                    : "Invalid login credentials. Did you sign up using your google account?",
                                 style: const TextStyle(fontSize: 18),
                               ),
                               actions: [
@@ -234,16 +234,32 @@ class LoginPage extends StatelessWidget {
               // google + apple sign in buttons
               SizedBox(
                 height: ht * 0.09172,
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // google button
-                    SquareTile(imagePath: 'lib/images/google.png'),
+                    GestureDetector(
+                      child:
+                          const SquareTile(imagePath: 'lib/images/google.png'),
+                      onTap: () async {
+                        try {
+                          await GoogleAuth().signInWithGoogle();
+                        } catch (e) {
+                          ScaffoldMessenger.of(context)
+                            ..removeCurrentSnackBar()
+                            ..showSnackBar(SnackBar(
+                                content: Text(e.toString().startsWith(
+                                        'PlatformException(network_error')
+                                    ? 'Check your internet connection'
+                                    : 'Google sign in cancelled')));
+                        }
+                      },
+                    ),
 
-                    SizedBox(width: 25),
+                    const SizedBox(width: 25),
 
                     // apple button
-                    SquareTile(imagePath: 'lib/images/apple.png')
+                    const SquareTile(imagePath: 'lib/images/apple.png')
                   ],
                 ),
               ),
