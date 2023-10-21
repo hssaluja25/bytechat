@@ -213,8 +213,26 @@ class RegisterPage extends StatelessWidget {
 
                     const SizedBox(width: 25),
 
-                    // apple button
-                    const SquareTile(imagePath: 'lib/images/apple.png')
+                    // facebook button
+                    GestureDetector(
+                      onTap: () async {
+                        try {
+                          await FbAuth().signInWithFacebook();
+                        } catch (e) {
+                          print(e);
+                          ScaffoldMessenger.of(context)
+                            ..removeCurrentSnackBar()
+                            ..showSnackBar(SnackBar(
+                                duration: const Duration(seconds: 6),
+                                content: Text(e.toString().startsWith(
+                                        '[firebase_auth/account-exists-with-different-credential] An account already exists')
+                                    ? 'You have previously logged in with either Google or email. Please finish logging in using that method to continue to the app.'
+                                    : 'Something went wrong')));
+                        }
+                      },
+                      child: const SquareTile(
+                          imagePath: 'lib/images/facebook.png'),
+                    ),
                   ],
                 ),
               ),
