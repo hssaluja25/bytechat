@@ -1,4 +1,4 @@
-# Flutter Auth
+# ByteChat
 
 A new Flutter project.
 

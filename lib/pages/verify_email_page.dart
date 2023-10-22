@@ -22,55 +22,63 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
   @override
   void initState() {
+    print('At the beggining, isEmailVerified=$isEmailVerified');
     initializeIsEmailVerified();
-
-    if (fetchingComplete) {
-      if (!isEmailVerified) {
-        sendVerificationEmail();
-        timer = Timer.periodic(
-          const Duration(seconds: 3),
-          (timer) => checkVerified(),
-        );
-      }
-    }
     super.initState();
   }
 
   Future initializeIsEmailVerified() async {
     isEmailVerified = widget.auth.currentUser!.emailVerified;
     if (isEmailVerified) {
+      print('isEmailVerified = true from Firebase');
       setState(() {
         isEmailVerified = true;
-      });
-      setState(() {
         fetchingComplete = true;
       });
+      // setState(() {
+      //   fetchingComplete = true;
+      // });
     } else {
+      print('isEmailVerified = false from Firebase');
+      print('now checking if the user logged in with Fb');
+
       final AccessToken? accessToken = await FacebookAuth.instance.accessToken;
       if (accessToken != null) {
         // If you login with Fb, isEmailVerified is set to false. This is the
         // expected behaviour. But we don't want to display this VerifyEmailPage
         // if the user logs in with Fb. So we need to set isEmailVerified to true
         // if the user has logged in with Fb
+        print('isEmailVerified = true as user logged in with Fb');
         setState(() {
           isEmailVerified = true;
-        });
-        setState(() {
           fetchingComplete = true;
         });
       } else {
+        print('isEmailVerified = false as user DID NOT log in with Fb');
         setState(() {
           isEmailVerified = false;
-        });
-        setState(() {
           fetchingComplete = true;
         });
       }
+    }
+    if (fetchingComplete) {
+      print('fetchingComplete = $fetchingComplete');
+      if (!isEmailVerified) {
+        print('isEmailVerified is false. sending verification email');
+        sendVerificationEmail();
+        timer = Timer.periodic(
+          const Duration(seconds: 3),
+          (timer) => checkVerified(),
+        );
+      }
+    } else {
+      print('fetchingComplete = $fetchingComplete');
     }
   }
 
   Future sendVerificationEmail() async {
     try {
+      print('sending email...');
       await Auth(auth: widget.auth)
           .verifyUser(userInfo: widget.auth.currentUser);
       setState(() {
@@ -101,11 +109,13 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
 
   Future resendEmail() async {
     if (canResendEmail) {
+      print('user can resend email');
       await sendVerificationEmail();
       ScaffoldMessenger.of(context)
         ..removeCurrentSnackBar()
         ..showSnackBar(const SnackBar(content: Text('Email sent')));
     } else {
+      print('user cannot resend email');
       ScaffoldMessenger.of(context)
         ..removeCurrentSnackBar()
         ..showSnackBar(const SnackBar(

@@ -160,7 +160,7 @@ class LoginPage extends StatelessWidget {
                         await Auth(auth: auth).signIn(
                             email: usernameController.text,
                             password: passwordController.text);
-                        if (!context.mounted) return;
+                        // if (!context.mounted) return;
                         Navigator.pop(context);
                         // Automatically the 'user' stream would detect a change in the auth state and push the home page.
                         // so we don't need to push the home page ourselves.
