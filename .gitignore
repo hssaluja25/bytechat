@@ -10,6 +10,9 @@
 .svn/
 migrate_working_dir/
 
+# Secrets
+android/app/src/main/res/values/strings.xml
+
 # IntelliJ related
 *.iml
 *.ipr
