@@ -9,10 +9,11 @@ class Auth {
 
   Stream<User?> get user => auth.authStateChanges();
 
-  Future<void> createAccount(
+  Future<UserCredential> createAccount(
       {required String email, required String password}) async {
-    await auth.createUserWithEmailAndPassword(
+    UserCredential user = await auth.createUserWithEmailAndPassword(
         email: email.trim(), password: password.trim());
+    return user;
   }
 
   Future<void> signIn({required String email, required String password}) async {
