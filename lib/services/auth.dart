@@ -44,7 +44,7 @@ class Auth {
 }
 
 class GoogleAuth {
-  Future signInWithGoogle() async {
+  Future<UserCredential> signInWithGoogle() async {
     // Begin interactive process
     final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
 

@@ -126,10 +126,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                 await Auth(auth: widget.auth).createAccount(
                                     email: usernameController.text,
                                     password: passwordController.text);
-                            _firestore
+                            final userRef = _firestore
                                 .collection('users')
-                                .doc(userCredential.user!.uid)
-                                .set({
+                                .doc(userCredential.user!.uid);
+                            userRef.set({
                               'uid': userCredential.user!.uid,
                               'email': usernameController.text
                             });
@@ -138,7 +138,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           } on Exception catch (error) {
                             setState(() {
                               print('registering error on register_page.dart');
-                              registrationHappening = true;
+                              registrationHappening = false;
                             });
                             showDialog(
                               barrierDismissible: true,
@@ -223,7 +223,21 @@ class _RegisterPageState extends State<RegisterPage> {
                               registrationHappening = true;
                             });
                             try {
-                              await GoogleAuth().signInWithGoogle();
+                              UserCredential userCredential =
+                                  await GoogleAuth().signInWithGoogle();
+                              // There are 2 cases when login with Google. Either the account already exists on Firestore or not.
+                              // If not, we create a new account with Google and also create a new document on Firestore
+                              // If it exists, we just sign in with Google and do not create a new document
+                              final userRef = _firestore
+                                  .collection('users')
+                                  .doc(userCredential.user!.uid);
+                              final snapshot = await userRef.get();
+                              if (!snapshot.exists) {
+                                userRef.set({
+                                  'uid': userCredential.user!.uid,
+                                  'email': userCredential.user?.email,
+                                });
+                              }
                             } catch (e) {
                               setState(() {
                                 print(
