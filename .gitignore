@@ -10,6 +10,9 @@
 .svn/
 migrate_working_dir/
 
+# UI files
+UI/
+
 # Secrets
 android/app/src/main/res/values/strings.xml
 

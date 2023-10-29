@@ -7,10 +7,8 @@ import 'package:learning_once_again/services/chat_service.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage(
-      {super.key,
-      required this.receiverUserEmail,
-      required this.receiverUserID});
-  final String receiverUserEmail;
+      {super.key, required this.receiverName, required this.receiverUserID});
+  final String receiverName;
   final String receiverUserID;
 
   @override
@@ -33,7 +31,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.receiverUserEmail)),
+      appBar: AppBar(title: Text(widget.receiverName)),
       body: Column(
         children: [
           Expanded(child: buildMessagesList()),
