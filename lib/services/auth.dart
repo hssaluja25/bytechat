@@ -9,11 +9,10 @@ class Auth {
 
   Stream<User?> get user => auth.authStateChanges();
 
-  Future<UserCredential> createAccount(
+  Future<void> createAccount(
       {required String email, required String password}) async {
-    UserCredential user = await auth.createUserWithEmailAndPassword(
+    await auth.createUserWithEmailAndPassword(
         email: email.trim(), password: password.trim());
-    return user;
   }
 
   Future<void> signIn({required String email, required String password}) async {
@@ -44,7 +43,7 @@ class Auth {
 }
 
 class GoogleAuth {
-  Future<UserCredential> signInWithGoogle() async {
+  Future<void> signInWithGoogle() async {
     // Begin interactive process
     final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
 
@@ -58,7 +57,7 @@ class GoogleAuth {
     );
 
     // now sign in
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    await FirebaseAuth.instance.signInWithCredential(credential);
   }
 }
 

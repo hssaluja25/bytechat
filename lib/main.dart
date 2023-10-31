@@ -28,7 +28,14 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(useMaterial3: true),
               home: snapshot.data == null
                   ? AuthPage(auth: _auth)
-                  : VerifyEmailPage(auth: _auth),
+                  : VerifyEmailPage(
+                      auth: _auth,
+                      name: snapshot.data?.displayName ?? 'Your name',
+                      email: snapshot.data?.email ??
+                          'email not set. this should never happen as when snapshot.data is null, AuthPage should be displayed',
+                      uid: snapshot.data?.uid ??
+                          'uid not set. this should never happen as when snapshot.data is null, AuthPage should be displayed',
+                    ),
             );
           } else if (snapshot.hasError) {
             return MaterialApp(

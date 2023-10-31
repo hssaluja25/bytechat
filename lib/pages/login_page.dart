@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:learning_once_again/components/my_button.dart';
@@ -18,7 +17,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   bool loginHappening = false;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
@@ -265,21 +263,10 @@ class _LoginPageState extends State<LoginPage> {
                               loginHappening = true;
                             });
                             try {
-                              UserCredential userCredential =
-                                  await GoogleAuth().signInWithGoogle();
+                              await GoogleAuth().signInWithGoogle();
                               // There are 2 cases when login with Google. Either the account already exists on Firestore or not.
                               // If not, we create a new account with Google and also create a new document on Firestore
                               // If it exists, we just sign in with Google and do not create a new document
-                              final userRef = _firestore
-                                  .collection('users')
-                                  .doc(userCredential.user!.uid);
-                              final snapshot = await userRef.get();
-                              if (!snapshot.exists) {
-                                userRef.set({
-                                  'uid': userCredential.user!.uid,
-                                  'email': userCredential.user?.email,
-                                });
-                              }
                             } catch (e) {
                               setState(() {
                                 print(

@@ -4,12 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:learning_once_again/components/my_button.dart';
-import 'package:learning_once_again/pages/home_page.dart';
+import 'package:learning_once_again/pages/get_name.dart';
 import 'package:learning_once_again/services/auth.dart';
 
 class VerifyEmailPage extends StatefulWidget {
-  const VerifyEmailPage({super.key, required this.auth});
+  const VerifyEmailPage(
+      {super.key,
+      required this.auth,
+      required this.name,
+      required this.email,
+      required this.uid});
   final FirebaseAuth auth;
+  // For passing to GetName page for showing default name in the TextField
+  final String name;
+  final String email;
+  final String uid;
   @override
   State<VerifyEmailPage> createState() => _VerifyEmailPageState();
 }
@@ -138,7 +147,12 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
     return !fetchingComplete
         ? const Scaffold(body: Center(child: CircularProgressIndicator()))
         : isEmailVerified
-            ? Home(auth: widget.auth)
+            ? GetName(
+                name: widget.name,
+                auth: widget.auth,
+                email: widget.email,
+                uid: widget.uid,
+              )
             : Scaffold(
                 body: SingleChildScrollView(
                   child: Column(

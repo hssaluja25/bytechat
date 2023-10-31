@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:learning_once_again/components/my_button.dart';
@@ -17,7 +16,6 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   bool registrationHappening = false;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
@@ -122,17 +120,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                   'registering with email and pwd in register_page.dart');
                               registrationHappening = true;
                             });
-                            UserCredential userCredential =
-                                await Auth(auth: widget.auth).createAccount(
-                                    email: usernameController.text,
-                                    password: passwordController.text);
-                            final userRef = _firestore
-                                .collection('users')
-                                .doc(userCredential.user!.uid);
-                            userRef.set({
-                              'uid': userCredential.user!.uid,
-                              'email': usernameController.text
-                            });
+
+                            await Auth(auth: widget.auth).createAccount(
+                                email: usernameController.text,
+                                password: passwordController.text);
                             // Automatically the 'user' stream would detect a change in the auth state and push the home page.
                             // so we don't need to push the home page ourselves.
                           } on Exception catch (error) {
@@ -223,21 +214,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               registrationHappening = true;
                             });
                             try {
-                              UserCredential userCredential =
-                                  await GoogleAuth().signInWithGoogle();
-                              // There are 2 cases when login with Google. Either the account already exists on Firestore or not.
-                              // If not, we create a new account with Google and also create a new document on Firestore
-                              // If it exists, we just sign in with Google and do not create a new document
-                              final userRef = _firestore
-                                  .collection('users')
-                                  .doc(userCredential.user!.uid);
-                              final snapshot = await userRef.get();
-                              if (!snapshot.exists) {
-                                userRef.set({
-                                  'uid': userCredential.user!.uid,
-                                  'email': userCredential.user?.email,
-                                });
-                              }
+                              await GoogleAuth().signInWithGoogle();
                             } catch (e) {
                               setState(() {
                                 print(
