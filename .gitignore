@@ -12,6 +12,7 @@ migrate_working_dir/
 
 # UI files
 UI/
+git_stash.txt
 
 # Secrets
 android/app/src/main/res/values/strings.xml

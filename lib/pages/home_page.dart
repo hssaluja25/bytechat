@@ -1,10 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:learning_once_again/components/build_users_list.dart';
 import 'package:learning_once_again/pages/account_page.dart';
 import 'package:learning_once_again/pages/select_contact.dart';
-import 'package:learning_once_again/pages/chat_page.dart';
 import 'package:learning_once_again/services/auth.dart';
 
 class Home extends StatefulWidget {
@@ -71,7 +70,7 @@ class _HomeState extends State<Home> {
                     child: Column(
                       children: [
                         const Text(
-                          'Harpreet',
+                          'Current User',
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         ),
@@ -213,7 +212,8 @@ class _HomeState extends State<Home> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const SelectContact()),
+            MaterialPageRoute(
+                builder: (context) => SelectContact(auth: widget.auth)),
           );
         },
         icon: const FaIcon(
@@ -226,100 +226,5 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
-  }
-}
-
-// Display all users except the current one
-class BuildUsersList extends StatefulWidget {
-  final FirebaseAuth auth;
-  const BuildUsersList({super.key, required this.auth});
-
-  @override
-  State<BuildUsersList> createState() => _BuildUsersListState();
-}
-
-class _BuildUsersListState extends State<BuildUsersList> {
-  final Stream<QuerySnapshot> _usersStream =
-      FirebaseFirestore.instance.collection('users').snapshots();
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: _usersStream,
-      builder: (BuildContext context,
-          AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
-        if (snapshot.hasError) {
-          return Center(
-            child: Text('Error getting users list: ${snapshot.error}'),
-          );
-        } else if (snapshot.hasData) {
-          return Expanded(
-            child: Container(
-              padding: const EdgeInsets.only(top: 15),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(35),
-                    topRight: Radius.circular(35)),
-              ),
-              child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                children: snapshot.data!.docs
-                    .map((doc) => UserItem(document: doc, auth: widget.auth))
-                    .toList(),
-              ),
-            ),
-          );
-        } else {
-          debugPrint('Getting users from Firebase');
-          return Expanded(
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(35),
-                    topRight: Radius.circular(35)),
-              ),
-            ),
-          );
-        }
-      },
-    );
-  }
-}
-
-class UserItem extends StatelessWidget {
-  late final Map<String, dynamic> data;
-  UserItem({super.key, required this.auth, required this.document}) {
-    data = document.data()! as Map<String, dynamic>;
-  }
-
-  final FirebaseAuth auth;
-  final DocumentSnapshot document;
-  @override
-  Widget build(BuildContext context) {
-    if (auth.currentUser!.email != data['email']) {
-      return ListTile(
-        contentPadding: const EdgeInsets.symmetric(vertical: 5),
-        title: Text(data['name']),
-        leading: const CircleAvatar(
-          backgroundImage: AssetImage('assets/images/me.jpg'),
-          radius: 30,
-        ),
-        onTap: () {
-          // Go to user's chat page
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ChatPage(
-                      receiverName: data['name'],
-                      receiverUserID: data['uid'],
-                    )),
-          );
-        },
-      );
-    } else {
-      return Container();
-    }
   }
 }
