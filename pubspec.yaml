@@ -35,8 +35,11 @@ dependencies:
   google_sign_in: ^6.1.5
   firebase_auth: ^4.11.0
   font_awesome_flutter: ^10.6.0
-  flutter_facebook_auth: ^6.0.2
+  flutter_facebook_auth: ^6.0.1
   cloud_firestore: ^4.11.0
+  share_plus: ^7.2.1
+  file_picker: ^6.0.0
+  url_launcher: ^6.2.1
 
 flutter_launcher_icons:
   android: true
@@ -71,6 +74,9 @@ flutter:
     - assets/images/arroba.png
     - assets/images/512.png
     - assets/images/me.jpg
+    - assets/images/profile.avif
+    - assets/images/profile3.jpg
+    - assets/images/profile4.jpg
     - lib/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -88,6 +94,12 @@ flutter:
     - family: lazare
       fonts:
         - asset: assets/fonts/LazareGroteskTrial.otf
+    - family: lato
+      fonts:
+        - asset: assets/fonts/Lato-Light.ttf
+    - family: latoreg
+      fonts:
+        - asset: assets/fonts/Lato-Regular.ttf
 
   #   - family: Trajan Pro
   #     fonts:

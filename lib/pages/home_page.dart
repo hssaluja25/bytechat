@@ -70,7 +70,8 @@ class _HomeState extends State<Home> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const AccountInfo(),
+                                builder: (context) =>
+                                    AccountInfo(username: userName),
                               ),
                             );
                           },
@@ -87,7 +88,8 @@ class _HomeState extends State<Home> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const AccountInfo(),
+                                builder: (context) =>
+                                    AccountInfo(username: userName),
                               ),
                             );
                           },
@@ -119,6 +121,7 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       const Spacer(),
+                      // Search btn
                       IconButton(
                         icon: const Icon(
                           Icons.search,
@@ -126,6 +129,7 @@ class _HomeState extends State<Home> {
                         ),
                         onPressed: () {},
                       ),
+                      // More options
                       PopupMenuButton(
                         iconSize: 35,
                         offset: const Offset(0, 45),
@@ -140,7 +144,7 @@ class _HomeState extends State<Home> {
                                   FontAwesomeIcons.solidUser,
                                   size: 20,
                                 ),
-                                title: Text('Account'),
+                                title: Text('Preferences'),
                               ),
                             ),
                             PopupMenuItem(
@@ -198,7 +202,8 @@ class _HomeState extends State<Home> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const AccountInfo(),
+                                builder: (context) =>
+                                    AccountInfo(username: userName),
                               ),
                             );
                           }
