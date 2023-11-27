@@ -131,15 +131,20 @@ class _AccountInfoState extends State<AccountInfo> {
                                 ),
                                 IconButton(
                                   onPressed: () async {
-                                    final doc = FirebaseFirestore.instance
-                                        .collection('users')
-                                        .doc(widget.uid);
-                                    Provider.of<UserProvider>(context,
-                                            listen: false)
-                                        .name = _nameController.text;
-                                    await doc.update({
-                                      'name': _nameController.text,
-                                    });
+                                    debugPrint(
+                                        'Inside the code to change the username');
+                                    // If user didn't type anything, don't do anything
+                                    if (_nameController.text.isNotEmpty) {
+                                      final doc = FirebaseFirestore.instance
+                                          .collection('users')
+                                          .doc(widget.uid);
+                                      Provider.of<UserProvider>(context,
+                                              listen: false)
+                                          .name = _nameController.text;
+                                      await doc.update({
+                                        'name': _nameController.text,
+                                      });
+                                    }
                                     setState(() {
                                       showNameTextField = false;
                                     });
