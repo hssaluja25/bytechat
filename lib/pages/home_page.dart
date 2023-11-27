@@ -36,6 +36,9 @@ class _HomeState extends State<Home> {
         final data = snapshot.data() as Map<String, dynamic>;
         // Setting the name in provider
         Provider.of<UserProvider>(context, listen: false).name = data['name'];
+        // Setting the status in provider
+        Provider.of<UserProvider>(context, listen: false).status =
+            data['status'];
       } else {
         debugPrint(
             "This should never happen. There is no corresponding Firestore doc for this user. Hence, can't read username, status and avatar");
@@ -117,7 +120,9 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                         Text(
-                          '💼 At work',
+                          Provider.of<UserProvider>(context).status.isEmpty
+                              ? 'Hey there! 👋'
+                              : Provider.of<UserProvider>(context).status,
                           style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.bold,

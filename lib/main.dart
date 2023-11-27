@@ -34,6 +34,8 @@ class MyApp extends StatelessWidget {
                     ? AuthPage(auth: _auth)
                     : VerifyEmailPage(
                         auth: _auth,
+                        // Name, email and uid is passed to VerifyEmailPage because it is needed by GetName page.
+                        // GetName needs that to set the name and email of the user and for that it also requires uid
                         name: snapshot.data?.displayName ?? 'Your name',
                         email: snapshot.data?.email ??
                             'email not set. this should never happen as when snapshot.data is null, AuthPage should be displayed',

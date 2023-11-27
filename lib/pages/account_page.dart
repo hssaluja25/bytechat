@@ -183,16 +183,34 @@ class _AccountInfoState extends State<AccountInfo> {
                                     controller: _statusController,
                                     focusNode: statusFocusNode,
                                     cursorHeight: 30,
-                                    decoration: const InputDecoration(
-                                      hintText: '💼 At work',
-                                      focusedBorder: UnderlineInputBorder(),
-                                      enabledBorder: UnderlineInputBorder(),
+                                    decoration: InputDecoration(
+                                      hintText:
+                                          Provider.of<UserProvider>(context)
+                                              .status,
+                                      focusedBorder:
+                                          const UnderlineInputBorder(),
+                                      enabledBorder:
+                                          const UnderlineInputBorder(),
                                     ),
                                     cursorColor: Colors.black,
                                   ),
                                 ),
                                 IconButton(
-                                  onPressed: () {
+                                  onPressed: () async {
+                                    debugPrint(
+                                        'Inside the code to change the status');
+                                    // If user didn't type anything, don't do anything
+                                    if (_statusController.text.isNotEmpty) {
+                                      final doc = FirebaseFirestore.instance
+                                          .collection('users')
+                                          .doc(widget.uid);
+                                      Provider.of<UserProvider>(context,
+                                              listen: false)
+                                          .status = _statusController.text;
+                                      await doc.update({
+                                        'status': _statusController.text,
+                                      });
+                                    }
                                     setState(() {
                                       showStatusTextField = false;
                                     });
@@ -204,9 +222,9 @@ class _AccountInfoState extends State<AccountInfo> {
                                 ),
                               ],
                             )
-                          : const Text(
-                              '💼 At work',
-                              style: TextStyle(
+                          : Text(
+                              Provider.of<UserProvider>(context).status,
+                              style: const TextStyle(
                                   fontSize: 20, fontFamily: 'latoreg'),
                             ),
                     ),

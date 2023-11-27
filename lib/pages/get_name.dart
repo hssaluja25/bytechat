@@ -57,6 +57,7 @@ class _GetNameState extends State<GetName> {
                             'uid': widget.uid,
                             'email': widget.email,
                             'name': nameController.text,
+                            'status': 'Hey there! 👋',
                           });
                           setState(() {
                             gottenName = true;
