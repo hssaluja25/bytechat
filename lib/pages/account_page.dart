@@ -1,13 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:learning_once_again/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AccountInfo extends StatefulWidget {
-  const AccountInfo({super.key, required this.username});
-  final String username;
+  const AccountInfo({super.key, required this.uid});
+  final String uid;
 
   @override
   State<AccountInfo> createState() => _AccountInfoState();
@@ -115,7 +118,9 @@ class _AccountInfoState extends State<AccountInfo> {
                                     focusNode: nameFocusNode,
                                     cursorHeight: 30,
                                     decoration: InputDecoration(
-                                      hintText: widget.username,
+                                      hintText:
+                                          Provider.of<UserProvider>(context)
+                                              .name,
                                       focusedBorder:
                                           const UnderlineInputBorder(),
                                       enabledBorder:
@@ -125,7 +130,16 @@ class _AccountInfoState extends State<AccountInfo> {
                                   ),
                                 ),
                                 IconButton(
-                                  onPressed: () {
+                                  onPressed: () async {
+                                    final doc = FirebaseFirestore.instance
+                                        .collection('users')
+                                        .doc(widget.uid);
+                                    Provider.of<UserProvider>(context,
+                                            listen: false)
+                                        .name = _nameController.text;
+                                    await doc.update({
+                                      'name': _nameController.text,
+                                    });
                                     setState(() {
                                       showNameTextField = false;
                                     });
@@ -138,7 +152,7 @@ class _AccountInfoState extends State<AccountInfo> {
                               ],
                             )
                           : Text(
-                              widget.username,
+                              Provider.of<UserProvider>(context).name,
                               style: const TextStyle(
                                 fontSize: 25,
                                 fontFamily: 'latoreg',
