@@ -39,6 +39,9 @@ class _HomeState extends State<Home> {
         // Setting the status in provider
         Provider.of<UserProvider>(context, listen: false).status =
             data['status'];
+        // Setting the avatar in provider
+        Provider.of<UserProvider>(context, listen: false).avatar =
+            data['avatar'];
       } else {
         debugPrint(
             "This should never happen. There is no corresponding Firestore doc for this user. Hence, can't read username, status and avatar");
@@ -84,8 +87,12 @@ class _HomeState extends State<Home> {
                         ),
                       );
                     },
-                    child: const CircleAvatar(
-                      backgroundImage: AssetImage('assets/images/me.jpg'),
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(
+                        Provider.of<UserProvider>(context).avatar.isEmpty
+                            ? 'https://firebasestorage.googleapis.com/v0/b/learing-auth-mkay.appspot.com/o/images%2Fprofile_pictures%2Fdefault.png?alt=media&token=9771cf0b-9fa3-4b87-bb2b-21013636a2a5'
+                            : Provider.of<UserProvider>(context).avatar,
+                      ),
                       radius: 50,
                     ),
                   ),

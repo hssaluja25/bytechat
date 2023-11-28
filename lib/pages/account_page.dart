@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -68,17 +71,47 @@ class _AccountInfoState extends State<AccountInfo> {
                     // Avatar
                     GestureDetector(
                       onTap: () async {
+                        final storage = FirebaseStorage.instance.ref();
+                        final images = storage.child("images");
+                        final profiles = images.child("profile_pictures");
+
                         final result = await FilePicker.platform
                             .pickFiles(type: FileType.image);
                         if (result == null) {
-                          // No file selected
+                          // No file selected; do nothing
                         } else {
-                          print(result);
+                          print('user has picked file');
+                          // Show the processing snackbar for a long time and after the process is complete, remove the snackbar
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              backgroundColor: Color.fromARGB(255, 226, 1, 87),
+                              content: Text('Processing'),
+                              duration: Duration(minutes: 5),
+                            ),
+                          );
+                          final file = result.files.first;
+                          final userProfile = profiles.child(widget.uid);
+                          final localFilePath = file.path;
+                          final uploadFile = File(localFilePath ?? '');
+                          // Upload to firebase storage and get the URL for the file
+                          await userProfile.putFile(uploadFile);
+                          final String downloadUrl =
+                              await userProfile.getDownloadURL();
+                          print(downloadUrl);
+                          // change the avatar
+                          Provider.of<UserProvider>(context, listen: false)
+                              .avatar = downloadUrl;
+                          // change the avatar on firestore
+                          final docUser = FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(widget.uid);
+                          await docUser.update({'avatar': downloadUrl});
+                          ScaffoldMessenger.of(context).removeCurrentSnackBar();
                         }
                       },
                       child: CircleAvatar(
-                        backgroundImage:
-                            const AssetImage('assets/images/me.jpg'),
+                        backgroundImage: NetworkImage(
+                            Provider.of<UserProvider>(context).avatar),
                         radius: 70,
                         child: Align(
                           alignment: Alignment.bottomRight,
