@@ -79,6 +79,7 @@ flutter:
     - assets/images/profile.avif
     - assets/images/profile3.jpg
     - assets/images/profile4.jpg
+    - assets/images/blank_avatar.png
     - lib/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
