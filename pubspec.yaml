@@ -75,7 +75,6 @@ flutter:
   assets:
     - assets/images/arroba.png
     - assets/images/512.png
-    - assets/images/me.jpg
     - assets/images/profile.avif
     - assets/images/profile3.jpg
     - assets/images/profile4.jpg

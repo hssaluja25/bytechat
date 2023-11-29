@@ -13,12 +13,13 @@ class UserItem extends StatelessWidget {
   final DocumentSnapshot document;
   @override
   Widget build(BuildContext context) {
+    // Display all users except the current user
     if (auth.currentUser!.email != data['email']) {
       return ListTile(
         contentPadding: const EdgeInsets.symmetric(vertical: 5),
         title: Text(data['name']),
-        leading: const CircleAvatar(
-          backgroundImage: AssetImage('assets/images/me.jpg'),
+        leading: CircleAvatar(
+          backgroundImage: NetworkImage(data['avatar']),
           radius: 30,
         ),
         onTap: () {
