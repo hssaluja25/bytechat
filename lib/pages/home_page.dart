@@ -252,7 +252,7 @@ class _HomeState extends State<Home> {
                       color: Colors.white,
                     ),
                     child: const Text(
-                      '34',
+                      '7',
                       style: TextStyle(color: Colors.grey),
                     ),
                   ),

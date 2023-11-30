@@ -36,6 +36,10 @@ class ChatService extends ChangeNotifier {
         .doc(chatRoomId)
         .collection('messages')
         .add(newmsg.toMap());
+    await firestore
+        .collection('chatrooms')
+        .doc(chatRoomId)
+        .set({'participants': ids});
   }
 
   // Get all messages between 2 users
