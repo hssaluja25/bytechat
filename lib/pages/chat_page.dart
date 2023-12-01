@@ -3,13 +3,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:learning_once_again/components/chat_bubble.dart';
 import 'package:learning_once_again/components/my_textfield.dart';
+import 'package:learning_once_again/providers/user_provider.dart';
 import 'package:learning_once_again/services/chat_service.dart';
+import 'package:provider/provider.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage(
-      {super.key, required this.receiverName, required this.receiverUserID});
+      {super.key,
+      required this.receiverName,
+      required this.receiverUserID,
+      required this.receiverAvatar});
   final String receiverName;
   final String receiverUserID;
+  final String receiverAvatar;
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -17,8 +23,23 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final TextEditingController msgController = TextEditingController();
-  final ChatService chatService = ChatService();
+  late final ChatService chatService;
   final FirebaseAuth auth = FirebaseAuth.instance;
+
+  @override
+  void didChangeDependencies() {
+    // Why am i using didChangeDependencies?
+    // Because Provider is not generally used outside the build method.
+    // If i write the following code in initState, when the user changes their name
+    // the provider in the initState would not work (initState is only called once).
+    // Hence, we use didChangeDependencies.
+    chatService = ChatService(
+        currentUserName: Provider.of<UserProvider>(context).name,
+        currentUserAvatar: Provider.of<UserProvider>(context).avatar,
+        receiverName: widget.receiverName,
+        receiverAvatar: widget.receiverAvatar);
+    super.didChangeDependencies();
+  }
 
   void sendMessage() async {
     if (msgController.text.isNotEmpty) {

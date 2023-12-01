@@ -2,7 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:learning_once_again/components/user_item.dart';
+import 'package:learning_once_again/components/new_chat_user_item.dart';
 
 class BuildUsersList extends StatefulWidget {
   final FirebaseAuth auth;
@@ -39,7 +39,8 @@ class _BuildUsersListState extends State<BuildUsersList> {
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 children: snapshot.data!.docs
-                    .map((doc) => UserItem(document: doc, auth: widget.auth))
+                    .map(
+                        (doc) => ChatUserItem(document: doc, auth: widget.auth))
                     .toList(),
               ),
             ),

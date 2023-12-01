@@ -5,6 +5,13 @@ import 'package:learning_once_again/models/message.dart';
 
 // Used for sending and reading messages
 class ChatService extends ChangeNotifier {
+  final String currentUserAvatar, currentUserName, receiverAvatar, receiverName;
+  ChatService({
+    required this.currentUserAvatar,
+    required this.currentUserName,
+    required this.receiverAvatar,
+    required this.receiverName,
+  });
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -36,10 +43,17 @@ class ChatService extends ChangeNotifier {
         .doc(chatRoomId)
         .collection('messages')
         .add(newmsg.toMap());
-    await firestore
-        .collection('chatrooms')
-        .doc(chatRoomId)
-        .set({'participants': ids});
+    await firestore.collection('chatrooms').doc(chatRoomId).set({
+      'participants': ids,
+      currentUserId: {
+        'name': currentUserName,
+        'avatar': currentUserAvatar,
+      },
+      receiverId: {
+        'name': receiverName,
+        'avatar': receiverAvatar,
+      }
+    });
   }
 
   // Get all messages between 2 users

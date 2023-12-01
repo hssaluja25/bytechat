@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:learning_once_again/components/build_users_list.dart';
+import 'package:learning_once_again/components/build_chats_list.dart';
 import 'package:learning_once_again/pages/account_page.dart';
 import 'package:learning_once_again/pages/select_contact.dart';
 import 'package:learning_once_again/providers/user_provider.dart';
@@ -52,6 +52,9 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    String crtUserName = Provider.of<UserProvider>(context).name;
+    String crtUserStatus = Provider.of<UserProvider>(context).status;
+    String crtUserAvatar = Provider.of<UserProvider>(context).avatar;
     double ht = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Container(
@@ -89,9 +92,9 @@ class _HomeState extends State<Home> {
                     },
                     child: CircleAvatar(
                       backgroundImage: NetworkImage(
-                        Provider.of<UserProvider>(context).avatar.isEmpty
+                        crtUserAvatar.isEmpty
                             ? 'https://firebasestorage.googleapis.com/v0/b/learing-auth-mkay.appspot.com/o/images%2Fprofile_pictures%2Fdefault.png?alt=media&token=9771cf0b-9fa3-4b87-bb2b-21013636a2a5'
-                            : Provider.of<UserProvider>(context).avatar,
+                            : crtUserAvatar,
                       ),
                       radius: 50,
                     ),
@@ -116,9 +119,7 @@ class _HomeState extends State<Home> {
                           child: FittedBox(
                             fit: BoxFit.fitWidth,
                             child: Text(
-                              Provider.of<UserProvider>(context).name.isEmpty
-                                  ? 'username'
-                                  : Provider.of<UserProvider>(context).name,
+                              crtUserName.isEmpty ? 'username' : crtUserName,
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -127,9 +128,9 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                         Text(
-                          Provider.of<UserProvider>(context).status.isEmpty
+                          crtUserStatus.isEmpty
                               ? 'Hey there! 👋'
-                              : Provider.of<UserProvider>(context).status,
+                              : crtUserStatus,
                           style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
@@ -259,7 +260,7 @@ class _HomeState extends State<Home> {
               ],
             ),
             // Show the chats
-            BuildUsersList(auth: widget.auth),
+            BuildChatsList(auth: widget.auth, uid: widget.uid),
           ],
         ),
       ),

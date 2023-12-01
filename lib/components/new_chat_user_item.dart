@@ -3,9 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:learning_once_again/pages/chat_page.dart';
 
-class UserItem extends StatelessWidget {
+class ChatUserItem extends StatelessWidget {
   late final Map<String, dynamic> data;
-  UserItem({super.key, required this.auth, required this.document}) {
+  ChatUserItem({super.key, required this.auth, required this.document}) {
     data = document.data()! as Map<String, dynamic>;
   }
 
@@ -27,10 +27,12 @@ class UserItem extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ChatPage(
-                      receiverName: data['name'],
-                      receiverUserID: data['uid'],
-                    )),
+              builder: (context) => ChatPage(
+                receiverName: data['name'],
+                receiverUserID: data['uid'],
+                receiverAvatar: data['avatar'],
+              ),
+            ),
           );
         },
       );
