@@ -22,7 +22,8 @@ class _BuildChatsListState extends State<BuildChatsList> {
   void initState() {
     Query query = FirebaseFirestore.instance
         .collection('chatrooms')
-        .where('participants', arrayContains: widget.uid);
+        .where('participants', arrayContains: widget.uid)
+        .orderBy('timestamp', descending: true);
     _chatstream = query.snapshots();
     query.snapshots().listen((snapshot) {
       int chatCount = snapshot.docs.length;

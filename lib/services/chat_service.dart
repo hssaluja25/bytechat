@@ -52,7 +52,8 @@ class ChatService extends ChangeNotifier {
       receiverId: {
         'name': receiverName,
         'avatar': receiverAvatar,
-      }
+      },
+      'timestamp': timestamp,
     });
   }
 
