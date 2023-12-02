@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:learning_once_again/models/message.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 // Used for sending and reading messages
 class ChatService extends ChangeNotifier {
@@ -18,6 +19,9 @@ class ChatService extends ChangeNotifier {
   // Send message
   Future<void> sendMessage(
       {required String receiverId, required String message}) async {
+    final player = AudioPlayer();
+    await player.play(AssetSource('audio/msg-sent.mp3'));
+
     // get current user info
     final String currentUserId = auth.currentUser!.uid;
     final String currentUserEmail = auth.currentUser!.email.toString();

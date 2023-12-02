@@ -42,6 +42,7 @@ dependencies:
   url_launcher: ^6.2.1
   provider: ^6.0.5
   firebase_storage: ^11.5.2
+  audioplayers: ^5.2.1
 
 flutter_launcher_icons:
   android: true
@@ -79,6 +80,8 @@ flutter:
     - assets/images/profile3.jpg
     - assets/images/profile4.jpg
     - assets/images/blank_avatar.png
+    - assets/audio/msg-received.mp3
+    - assets/audio/msg-sent.mp3
     - lib/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
