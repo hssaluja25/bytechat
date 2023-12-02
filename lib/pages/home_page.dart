@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:learning_once_again/components/build_chats_list.dart';
 import 'package:learning_once_again/pages/account_page.dart';
 import 'package:learning_once_again/pages/select_contact.dart';
+import 'package:learning_once_again/providers/chat_provider.dart';
 import 'package:learning_once_again/providers/user_provider.dart';
 import 'package:learning_once_again/services/auth.dart';
 import 'package:provider/provider.dart';
@@ -252,9 +253,9 @@ class _HomeState extends State<Home> {
                       shape: BoxShape.circle,
                       color: Colors.white,
                     ),
-                    child: const Text(
-                      '7',
-                      style: TextStyle(color: Colors.grey),
+                    child: Text(
+                      '${Provider.of<ChatProvider>(context).number}',
+                      style: const TextStyle(color: Colors.grey),
                     ),
                   ),
               ],

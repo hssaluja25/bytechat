@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:learning_once_again/components/my_textfield.dart';
 import 'package:learning_once_again/pages/home_page.dart';
+import 'package:learning_once_again/providers/chat_provider.dart';
 import 'package:learning_once_again/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -53,7 +54,10 @@ class _GetNameState extends State<GetName> {
             gottenName = true;
           }
           return gottenName
-              ? Home(auth: widget.auth, uid: widget.uid)
+              ? ChangeNotifierProvider(
+                  create: (context) => ChatProvider(),
+                  child: Home(auth: widget.auth, uid: widget.uid),
+                )
               : Scaffold(
                   appBar: AppBar(
                     title: const Text('About You'),
