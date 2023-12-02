@@ -13,8 +13,10 @@ class BuildUsersList extends StatefulWidget {
 }
 
 class _BuildUsersListState extends State<BuildUsersList> {
-  final Stream<QuerySnapshot> _usersStream =
-      FirebaseFirestore.instance.collection('users').snapshots();
+  final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
+      .collection('users')
+      .orderBy('name')
+      .snapshots();
 
   @override
   Widget build(BuildContext context) {
