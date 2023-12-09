@@ -3,8 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:learning_once_again/components/home_user_item.dart';
-import 'package:learning_once_again/providers/chat_provider.dart';
-import 'package:provider/provider.dart';
 
 class BuildChatsList extends StatefulWidget {
   final FirebaseAuth auth;
@@ -25,11 +23,6 @@ class _BuildChatsListState extends State<BuildChatsList> {
         .where('participants', arrayContains: widget.uid)
         .orderBy('timestamp', descending: true);
     _chatstream = query.snapshots();
-    query.snapshots().listen((snapshot) {
-      int chatCount = snapshot.docs.length;
-      print('ChatCount is $chatCount');
-      Provider.of<ChatProvider>(context, listen: false).number = chatCount;
-    });
     super.initState();
   }
 

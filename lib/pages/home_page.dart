@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:learning_once_again/components/build_chats_list.dart';
 import 'package:learning_once_again/pages/account_page.dart';
@@ -21,10 +22,20 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  bool unreadChats = true;
-
   @override
   void initState() {
+    Query query = FirebaseFirestore.instance
+        .collection('chatrooms')
+        .where('participants', arrayContains: widget.uid)
+        .orderBy('timestamp', descending: true);
+    query.snapshots().listen((snapshot) {
+      int chatCount = snapshot.docs.length;
+      print('ChatCount is $chatCount');
+      if (mounted) {
+        Provider.of<ChatProvider>(context, listen: false).number = chatCount;
+      }
+    });
+
     // We are not using FutureBuilder to make the call to Firestore because
     // if we do so then when we set the name we got from Firestore in our
     // UserProvider, we get an error: Flutter setState() or markNeedsBuild()
@@ -233,7 +244,7 @@ class _HomeState extends State<Home> {
             ),
             // Space below account info
             SizedBox(height: ht * 0.0213675),
-            // Chat heading and number of unread chats
+            // Chat heading and number of chats
             Row(
               children: [
                 const SizedBox(width: 25),
@@ -245,23 +256,60 @@ class _HomeState extends State<Home> {
                   ),
                   textAlign: TextAlign.left,
                 ),
-                if (unreadChats)
-                  Container(
-                    margin: const EdgeInsets.only(left: 10),
-                    padding: const EdgeInsets.all(9),
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                    ),
-                    child: Text(
-                      '${Provider.of<ChatProvider>(context).number}',
-                      style: const TextStyle(color: Colors.grey),
-                    ),
+                Container(
+                  margin: const EdgeInsets.only(left: 10),
+                  padding: const EdgeInsets.all(9),
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white,
                   ),
+                  child: Text(
+                    '${Provider.of<ChatProvider>(context).number}',
+                    style: const TextStyle(color: Colors.grey),
+                  ),
+                ),
               ],
             ),
             // Show the chats
-            BuildChatsList(auth: widget.auth, uid: widget.uid),
+            if (Provider.of<ChatProvider>(context).number != 0)
+              BuildChatsList(auth: widget.auth, uid: widget.uid)
+            else
+              Expanded(
+                child: Container(
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.only(top: 15),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(35),
+                      topRight: Radius.circular(35),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(width: 20),
+                      SvgPicture.asset(
+                        'assets/images/chat.svg',
+                        height: 50,
+                        width: 50,
+                      ),
+                      const SizedBox(width: 20),
+                      Flexible(
+                        child: Text(
+                          'No chats yet! Start a conversation by tapping New Chat',
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey.shade800),
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                    ],
+                  ),
+                ),
+              ),
           ],
         ),
       ),

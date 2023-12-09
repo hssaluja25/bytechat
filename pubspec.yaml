@@ -43,6 +43,7 @@ dependencies:
   provider: ^6.0.5
   firebase_storage: ^11.5.2
   audioplayers: ^5.2.1
+  flutter_svg: ^2.0.9
 
 flutter_launcher_icons:
   android: true
@@ -74,6 +75,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/images/chat.svg
     - assets/images/arroba.png
     - assets/images/512.png
     - assets/images/profile.avif
