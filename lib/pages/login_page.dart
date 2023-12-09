@@ -269,6 +269,7 @@ class _LoginPageState extends State<LoginPage> {
                               // If not, we create a new account with Google and also create a new document on Firestore
                               // If it exists, we just sign in with Google and do not create a new document
                             } catch (e) {
+                              print(e);
                               setState(() {
                                 print(
                                     'login with google cancelled in login_page.dart');

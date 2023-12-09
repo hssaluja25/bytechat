@@ -54,7 +54,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBKyo3_uaVQDU3G6FXReMKtAmP04uORTV0',
-    appId: '1:619221903788:android:74b23104230dcbe66db209',
+    appId: '1:619221903788:android:59aaaf084c2be20e6db209',
     messagingSenderId: '619221903788',
     projectId: 'learing-auth-mkay',
     storageBucket: 'learing-auth-mkay.appspot.com',

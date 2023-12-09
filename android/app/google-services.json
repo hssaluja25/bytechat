@@ -7,17 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:619221903788:android:74b23104230dcbe66db209",
+        "mobilesdk_app_id": "1:619221903788:android:59aaaf084c2be20e6db209",
         "android_client_info": {
-          "package_name": "com.example.learning_once_again"
+          "package_name": "com.singhcode.bytechat"
         }
       },
       "oauth_client": [
         {
-          "client_id": "619221903788-tvkqgu713cq4q6gti15uupup2v23tlhk.apps.googleusercontent.com",
+          "client_id": "619221903788-eadsrm9u6q7htccka38j6ujqh4gtsam9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.learning_once_again",
+            "package_name": "com.singhcode.bytechat",
             "certificate_hash": "a7ddc68b7ed5e304820a3cb7309f7dfbcdb98005"
           }
         },
