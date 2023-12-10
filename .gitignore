@@ -22,6 +22,7 @@ android/app/src/main/res/values/strings.xml
 *.iws
 .idea/
 TODO.txt
+RESPONSIVE.txt
 LEARNING.txt
 info.txt
 # The .vscode folder contains launch configuration and tasks you configure in

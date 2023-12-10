@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -35,6 +34,7 @@ class _AccountInfoState extends State<AccountInfo> {
   @override
   Widget build(BuildContext context) {
     double ht = MediaQuery.of(context).size.height;
+    double wd = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -65,7 +65,9 @@ class _AccountInfoState extends State<AccountInfo> {
             ),
             child: Center(
               child: Container(
-                margin: const EdgeInsets.only(top: 50),
+                margin: ht > 850
+                    ? const EdgeInsets.only(top: 50)
+                    : const EdgeInsets.only(top: 25),
                 child: Column(
                   children: [
                     // Avatar
@@ -112,7 +114,7 @@ class _AccountInfoState extends State<AccountInfo> {
                       child: CircleAvatar(
                         backgroundImage: NetworkImage(
                             Provider.of<UserProvider>(context).avatar),
-                        radius: 70,
+                        radius: ht > 850 ? 70 : 60,
                         child: Align(
                           alignment: Alignment.bottomRight,
                           child: Container(
@@ -191,8 +193,8 @@ class _AccountInfoState extends State<AccountInfo> {
                             )
                           : Text(
                               Provider.of<UserProvider>(context).name,
-                              style: const TextStyle(
-                                fontSize: 25,
+                              style: TextStyle(
+                                fontSize: ht > 850 ? 25 : 20,
                                 fontFamily: 'latoreg',
                                 fontWeight: FontWeight.bold,
                               ),
@@ -257,8 +259,10 @@ class _AccountInfoState extends State<AccountInfo> {
                             )
                           : Text(
                               Provider.of<UserProvider>(context).status,
-                              style: const TextStyle(
-                                  fontSize: 20, fontFamily: 'latoreg'),
+                              style: TextStyle(
+                                fontSize: ht > 850 ? 20 : 15,
+                                fontFamily: 'latoreg',
+                              ),
                             ),
                     ),
                   ],
@@ -268,10 +272,10 @@ class _AccountInfoState extends State<AccountInfo> {
           ),
           // Notifications Card
           Positioned(
-            height: ht * 0.39,
-            left: 40,
-            top: 300,
-            right: 40,
+            height: ht > 850 ? ht * 0.39 : ht * 0.43,
+            left: wd > 400 ? 40 : 30,
+            top: ht > 850 ? 300 : 235,
+            right: wd > 400 ? 40 : 30,
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -287,8 +291,9 @@ class _AccountInfoState extends State<AccountInfo> {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Column(
+                child: ListView(
                   children: [
+                    // Conversation Tones
                     GestureDetector(
                       onTap: () {
                         setState(() {
@@ -296,10 +301,10 @@ class _AccountInfoState extends State<AccountInfo> {
                         });
                       },
                       child: ListTile(
-                        title: const Text(
+                        title: Text(
                           'Conversation Tones',
                           style: TextStyle(
-                            fontSize: 19,
+                            fontSize: ht > 850 ? 19 : 15,
                             fontFamily: 'latoreg',
                           ),
                         ),
@@ -317,6 +322,7 @@ class _AccountInfoState extends State<AccountInfo> {
                         ),
                       ),
                     ),
+                    // Message Notifications
                     GestureDetector(
                       onTap: () {
                         setState(() {
@@ -324,10 +330,10 @@ class _AccountInfoState extends State<AccountInfo> {
                         });
                       },
                       child: ListTile(
-                        title: const Text(
+                        title: Text(
                           'Message Notifications',
                           style: TextStyle(
-                            fontSize: 19,
+                            fontSize: ht > 850 ? 19 : 14,
                             fontFamily: 'latoreg',
                           ),
                         ),
@@ -345,6 +351,7 @@ class _AccountInfoState extends State<AccountInfo> {
                         ),
                       ),
                     ),
+                    // Notification Sound
                     GestureDetector(
                       onTap: () {
                         showDialog(
@@ -546,38 +553,40 @@ class _AccountInfoState extends State<AccountInfo> {
                               );
                             });
                       },
-                      child: const ListTile(
+                      child: ListTile(
                         title: Text(
                           'Notification Sound',
                           style: TextStyle(
-                            fontSize: 19,
+                            fontSize: ht > 850 ? 19 : 15,
                             fontFamily: 'latoreg',
                           ),
                         ),
                       ),
                     ),
+                    // Feedback
                     GestureDetector(
                       onTap: () async {
                         final feedbackUri = Uri.parse(
                             'mailto:hssaluja2508@gmail.com?subject=ByteChat Feeback');
                         launchUrl(feedbackUri);
                       },
-                      child: const ListTile(
+                      child: ListTile(
                         title: Text(
                           'Give Feedback',
                           style: TextStyle(
-                            fontSize: 19,
+                            fontSize: ht > 850 ? 19 : 15,
                             fontFamily: 'latoreg',
                           ),
                         ),
-                        subtitle: Text(
+                        subtitle: const Text(
                           'Share your thoughts and help us improve!',
                           style: TextStyle(fontSize: 12),
                         ),
-                        trailing: FaIcon(FontAwesomeIcons.rightFromBracket),
-                        // trailing: Icon(Icons.outbond_outlined),
+                        trailing:
+                            const FaIcon(FontAwesomeIcons.rightFromBracket),
                       ),
                     ),
+                    // About app
                     GestureDetector(
                       onTap: () {
                         showLicensePage(
@@ -593,11 +602,11 @@ class _AccountInfoState extends State<AccountInfo> {
                           ),
                         );
                       },
-                      child: const ListTile(
+                      child: ListTile(
                         title: Text(
                           'About App',
                           style: TextStyle(
-                            fontSize: 19,
+                            fontSize: ht > 850 ? 19 : 15,
                             fontFamily: 'latoreg',
                           ),
                         ),
@@ -610,18 +619,22 @@ class _AccountInfoState extends State<AccountInfo> {
           ),
           // Invite a Friend
           Positioned(
-            bottom: 40,
+            bottom: ht > 850 ? 40 : 20,
             left: 38,
             right: 38,
             child: Column(
               children: [
-                const Text(
+                Text(
                   'Invite a Friend',
-                  style: TextStyle(fontSize: 27, fontFamily: 'latoreg'),
+                  style: TextStyle(
+                    fontSize: ht > 850 ? 27 : 19,
+                    fontFamily: 'latoreg',
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Row(
                   children: [
+                    // First Person photo
                     Container(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
@@ -634,14 +647,15 @@ class _AccountInfoState extends State<AccountInfo> {
                           ),
                         ],
                       ),
-                      child: const CircleAvatar(
-                        backgroundImage: AssetImage(
+                      child: CircleAvatar(
+                        backgroundImage: const AssetImage(
                           'assets/images/profile4.jpg',
                         ),
-                        radius: 35,
+                        radius: ht > 850 ? 35 : 30,
                       ),
                     ),
                     const SizedBox(width: 10),
+                    // Second Person photo
                     Container(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
@@ -654,14 +668,15 @@ class _AccountInfoState extends State<AccountInfo> {
                           ),
                         ],
                       ),
-                      child: const CircleAvatar(
-                        backgroundImage: AssetImage(
-                          'assets/images/profile.avif',
+                      child: CircleAvatar(
+                        backgroundImage: const AssetImage(
+                          'assets/images/profile.jpg',
                         ),
-                        radius: 35,
+                        radius: ht > 850 ? 35 : 30,
                       ),
                     ),
                     const SizedBox(width: 10),
+                    // Third person photo
                     Container(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
@@ -674,11 +689,11 @@ class _AccountInfoState extends State<AccountInfo> {
                           ),
                         ],
                       ),
-                      child: const CircleAvatar(
-                        backgroundImage: AssetImage(
+                      child: CircleAvatar(
+                        backgroundImage: const AssetImage(
                           'assets/images/profile3.jpg',
                         ),
-                        radius: 35,
+                        radius: ht > 850 ? 35 : 30,
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -694,7 +709,12 @@ class _AccountInfoState extends State<AccountInfo> {
                         foregroundColor: Colors.white,
                         elevation: 4,
                       ),
-                      child: const Text('Invite Now'),
+                      child: Text(
+                        'Invite Now',
+                        style: TextStyle(
+                          fontSize: wd > 400 ? 14 : 10,
+                        ),
+                      ),
                     ),
                   ],
                 )

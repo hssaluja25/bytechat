@@ -40,8 +40,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   // logo
                   SizedBox(
-                    height: ht > 800 ? ht * 0.1068376 : ht * 0.1,
-                    width: wd > 385 ? ht * 0.1068376 : ht * 0.1,
+                    height: wd > 400 ? 0.23148 * wd : wd * 0.22,
+                    width: wd > 400 ? 0.23148 * wd : wd * 0.22,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(25),
                       child: Image.asset(
@@ -55,7 +55,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   // Get started today, it's quick!
                   SizedBox(
-                    height: ht > 800 ? ht * 0.024573 : ht * 0.031,
+                    height: ht > 850 ? ht * 0.024573 : ht * 0.036,
                     child: Center(
                       child: Text(
                         "Get started today, it's quick!",
@@ -108,7 +108,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   // register button
                   SizedBox(
-                    height: ht > 800 ? ht * 0.07799 : ht * 0.11,
+                    height: ht * 0.07799,
                     child: MyButton(
                       textOnBtn: 'Register',
                       onTap: () async {
@@ -183,7 +183,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                 const EdgeInsets.symmetric(horizontal: 10.0),
                             child: Text(
                               'Or continue with',
-                              style: TextStyle(color: Colors.grey[700]),
+                              style: TextStyle(
+                                color: Colors.grey[700],
+                                fontSize: ht > 850 ? 14 : 11,
+                              ),
                             ),
                           ),
                           Expanded(
@@ -265,7 +268,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                   // already have an account? log in
                   SizedBox(
-                    height: ht > 800 ? ht * 0.021367 : ht * 0.029,
+                    height: ht > 850 ? ht * 0.021367 : ht * 0.033,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

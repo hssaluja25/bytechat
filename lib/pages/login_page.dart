@@ -25,6 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     double ht = MediaQuery.of(context).size.height;
+    double wd = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey[300],
@@ -40,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
 
                   // logo
                   SizedBox(
-                    height: ht * 0.1118568,
+                    width: wd * 0.241,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(25),
                       child: Image.asset(
@@ -53,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
 
                   // welcome back, you've been missed!
                   SizedBox(
-                    height: ht * 0.032,
+                    height: ht > 850 ? ht * 0.032 : ht * 0.033,
                     child: Center(
                       child: Text(
                         'Welcome back you\'ve been missed!',
@@ -93,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
 
                   // forgot password?
                   SizedBox(
-                    height: ht * 0.027,
+                    height: ht > 850 ? ht * 0.027 : ht * 0.03,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: Row(
@@ -231,7 +232,10 @@ class _LoginPageState extends State<LoginPage> {
                                 const EdgeInsets.symmetric(horizontal: 10.0),
                             child: Text(
                               'Or continue with',
-                              style: TextStyle(color: Colors.grey[700]),
+                              style: TextStyle(
+                                color: Colors.grey[700],
+                                fontSize: ht > 850 ? 14 : 11,
+                              ),
                             ),
                           ),
                           Expanded(

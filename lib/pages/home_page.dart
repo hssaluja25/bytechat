@@ -68,6 +68,7 @@ class _HomeState extends State<Home> {
     String crtUserStatus = Provider.of<UserProvider>(context).status;
     String crtUserAvatar = Provider.of<UserProvider>(context).avatar;
     double ht = MediaQuery.of(context).size.height;
+    double wd = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -132,8 +133,8 @@ class _HomeState extends State<Home> {
                             fit: BoxFit.fitWidth,
                             child: Text(
                               crtUserName.isEmpty ? 'username' : crtUserName,
-                              style: const TextStyle(
-                                fontSize: 20,
+                              style: TextStyle(
+                                fontSize: wd > 400 ? 20 : 18,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -144,7 +145,7 @@ class _HomeState extends State<Home> {
                               ? 'Hey there! 👋'
                               : crtUserStatus,
                           style: TextStyle(
-                              fontSize: 17,
+                              fontSize: wd > 400 ? 17 : 15,
                               fontWeight: FontWeight.bold,
                               color: Colors.grey.shade800),
                         ),
