@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -72,6 +71,7 @@ class _GetNameState extends State<GetName> {
                             'avatar': downloadUrl.isEmpty
                                 ? 'https://firebasestorage.googleapis.com/v0/b/learing-auth-mkay.appspot.com/o/images%2Fprofile_pictures%2Fdefault.png?alt=media&token=9771cf0b-9fa3-4b87-bb2b-21013636a2a5'
                                 : downloadUrl,
+                            'conversationTone': true,
                           });
                           setState(() {
                             gottenName = true;

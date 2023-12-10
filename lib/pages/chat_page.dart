@@ -41,22 +41,15 @@ class _ChatPageState extends State<ChatPage> {
     super.didChangeDependencies();
   }
 
-  void sendMessage() async {
-    if (msgController.text.isNotEmpty) {
-      await chatService.sendMessage(
-          message: msgController.text, receiverId: widget.receiverUserID);
-      msgController.clear();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    bool playSound = Provider.of<UserProvider>(context).play;
     return Scaffold(
       appBar: AppBar(title: Text(widget.receiverName)),
       body: Column(
         children: [
           Expanded(child: buildMessagesList()),
-          buildMsgInput(),
+          buildMsgInput(playSound: playSound),
           const SizedBox(height: 25),
         ],
       ),
@@ -113,7 +106,7 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  Widget buildMsgInput() {
+  Widget buildMsgInput({required bool playSound}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: Row(
@@ -127,7 +120,16 @@ class _ChatPageState extends State<ChatPage> {
           ),
           // Send button
           IconButton(
-            onPressed: sendMessage,
+            onPressed: () async {
+              if (msgController.text.isNotEmpty) {
+                await chatService.sendMessage(
+                  message: msgController.text,
+                  receiverId: widget.receiverUserID,
+                  playSound: playSound,
+                );
+                msgController.clear();
+              }
+            },
             icon: const Icon(
               Icons.arrow_upward,
               size: 40,

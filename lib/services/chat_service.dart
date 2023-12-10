@@ -18,9 +18,13 @@ class ChatService extends ChangeNotifier {
 
   // Send message
   Future<void> sendMessage(
-      {required String receiverId, required String message}) async {
-    final player = AudioPlayer();
-    await player.play(AssetSource('audio/msg-sent.mp3'));
+      {required String receiverId,
+      required String message,
+      required bool playSound}) async {
+    if (playSound) {
+      final player = AudioPlayer();
+      await player.play(AssetSource('audio/msg-sent.mp3'));
+    }
 
     // get current user info
     final String currentUserId = auth.currentUser!.uid;

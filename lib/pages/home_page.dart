@@ -54,6 +54,9 @@ class _HomeState extends State<Home> {
         // Setting the avatar in provider
         Provider.of<UserProvider>(context, listen: false).avatar =
             data['avatar'];
+        // Setting the conversation tone in provider
+        Provider.of<UserProvider>(context, listen: false).play =
+            data['conversationTone'];
       } else {
         debugPrint(
             "This should never happen. There is no corresponding Firestore doc for this user. Hence, can't read username, status and avatar");

@@ -26,7 +26,6 @@ class _AccountInfoState extends State<AccountInfo> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _statusController = TextEditingController();
 
-  bool conversationTones = true;
   bool msgNotifications = true;
   // Select notification sound
   String? notificationTone;
@@ -35,6 +34,7 @@ class _AccountInfoState extends State<AccountInfo> {
   Widget build(BuildContext context) {
     double ht = MediaQuery.of(context).size.height;
     double wd = MediaQuery.of(context).size.width;
+    bool conversationTones = Provider.of<UserProvider>(context).play;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -295,10 +295,15 @@ class _AccountInfoState extends State<AccountInfo> {
                   children: [
                     // Conversation Tones
                     GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          conversationTones = !conversationTones;
+                      onTap: () async {
+                        final docUser = FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(widget.uid);
+                        await docUser.update({
+                          'conversationTone': !conversationTones,
                         });
+                        Provider.of<UserProvider>(context, listen: false).play =
+                            !conversationTones;
                       },
                       child: ListTile(
                         title: Text(
@@ -314,9 +319,15 @@ class _AccountInfoState extends State<AccountInfo> {
                         ),
                         trailing: CupertinoSwitch(
                           value: conversationTones,
-                          onChanged: (newVal) {
-                            setState(() {
-                              conversationTones = newVal;
+                          onChanged: (newVal) async {
+                            debugPrint('Inside cupertino switch handler');
+                            Provider.of<UserProvider>(context, listen: false)
+                                .play = newVal;
+                            final docUser = FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(widget.uid);
+                            await docUser.update({
+                              'conversationTone': newVal,
                             });
                           },
                         ),

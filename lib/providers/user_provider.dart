@@ -5,10 +5,12 @@ class UserProvider with ChangeNotifier {
   String _name = '';
   String _status = '';
   String _avatar = '';
+  bool _play = true;
 
   String get name => _name;
   String get status => _status;
   String get avatar => _avatar;
+  bool get play => _play;
 
   set name(String newVal) {
     _name = newVal;
@@ -22,6 +24,11 @@ class UserProvider with ChangeNotifier {
 
   set avatar(String newVal) {
     _avatar = newVal;
+    notifyListeners();
+  }
+
+  set play(bool newVal) {
+    _play = newVal;
     notifyListeners();
   }
 }
