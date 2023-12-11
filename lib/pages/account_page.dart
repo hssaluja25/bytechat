@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:learning_once_again/providers/user_provider.dart';
+import 'package:learning_once_again/services/local_auth_api.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -35,6 +36,7 @@ class _AccountInfoState extends State<AccountInfo> {
     double wd = MediaQuery.of(context).size.width;
     bool conversationTones = Provider.of<UserProvider>(context).play;
     bool enterIsSend = Provider.of<UserProvider>(context).enterIsSend;
+    bool authenticate = Provider.of<UserProvider>(context).authenticate;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -299,7 +301,8 @@ class _AccountInfoState extends State<AccountInfo> {
                         final docUser = FirebaseFirestore.instance
                             .collection('users')
                             .doc(widget.uid);
-                        await docUser.update({
+                        // Not using await here as it improves performance
+                        docUser.update({
                           'conversationTone': !conversationTones,
                         });
                         Provider.of<UserProvider>(context, listen: false).play =
@@ -335,11 +338,12 @@ class _AccountInfoState extends State<AccountInfo> {
                     ),
                     // Enter is Send
                     GestureDetector(
-                      onTap: () async {
+                      onTap: () {
                         final docUser = FirebaseFirestore.instance
                             .collection('users')
                             .doc(widget.uid);
-                        await docUser.update({
+                        // Not using await here as it improves performance
+                        docUser.update({
                           'enterIsSend': !enterIsSend,
                         });
                         Provider.of<UserProvider>(context, listen: false)
@@ -375,218 +379,329 @@ class _AccountInfoState extends State<AccountInfo> {
                         ),
                       ),
                     ),
-                    // Notification Sound
+                    // Authentication lock
                     GestureDetector(
-                      onTap: () {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text('Notification Tone'),
-                                titleTextStyle: const TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                ),
-                                content: StatefulBuilder(
-                                  builder: (BuildContext context,
-                                      StateSetter setState) {
-                                    return SingleChildScrollView(
-                                      child: Column(
-                                        children: [
-                                          RadioListTile(
-                                            title:
-                                                const Text('Default Ringtone'),
-                                            value: 'default',
-                                            groupValue: notificationTone,
-                                            onChanged: (newValue) {
-                                              setState(() {
-                                                notificationTone =
-                                                    newValue ?? '';
-                                              });
-                                            },
-                                          ),
-                                          RadioListTile(
-                                            title: const Text('None'),
-                                            value: 'none',
-                                            groupValue: notificationTone,
-                                            onChanged: (newVal) {
-                                              setState(() {
-                                                notificationTone = newVal ?? '';
-                                              });
-                                            },
-                                          ),
-                                          RadioListTile(
-                                            title: const Text('Argon'),
-                                            value: 'argon',
-                                            groupValue: notificationTone,
-                                            onChanged: (newV) {
-                                              setState(() {
-                                                notificationTone = newV ?? '';
-                                              });
-                                            },
-                                          ),
-                                          RadioListTile(
-                                            title: const Text('Attentive'),
-                                            value: 'attentive',
-                                            groupValue: notificationTone,
-                                            onChanged: (newV) {
-                                              setState(() {
-                                                notificationTone = newV ?? '';
-                                              });
-                                            },
-                                          ),
-                                          RadioListTile(
-                                            title: const Text('BeepBeep'),
-                                            value: 'beepbeep',
-                                            groupValue: notificationTone,
-                                            onChanged: (newV) {
-                                              setState(() {
-                                                notificationTone = newV ?? '';
-                                              });
-                                            },
-                                          ),
-                                          RadioListTile(
-                                            title: const Text('bird'),
-                                            value: 'bird',
-                                            groupValue: notificationTone,
-                                            onChanged: (newV) {
-                                              setState(() {
-                                                notificationTone = newV ?? '';
-                                              });
-                                            },
-                                          ),
-                                          RadioListTile(
-                                            title: const Text('buzzer'),
-                                            value: 'buzzer',
-                                            groupValue: notificationTone,
-                                            onChanged: (newV) {
-                                              setState(() {
-                                                notificationTone = newV ?? '';
-                                              });
-                                            },
-                                          ),
-                                          RadioListTile(
-                                            title: const Text('carbon'),
-                                            value: 'carbon',
-                                            groupValue: notificationTone,
-                                            onChanged: (newV) {
-                                              setState(() {
-                                                notificationTone = newV ?? '';
-                                              });
-                                            },
-                                          ),
-                                          RadioListTile(
-                                            title: const Text('Chime'),
-                                            value: 'chime',
-                                            groupValue: notificationTone,
-                                            onChanged: (newV) {
-                                              setState(() {
-                                                notificationTone = newV ?? '';
-                                              });
-                                            },
-                                          ),
-                                          RadioListTile(
-                                            title: const Text('Clear'),
-                                            value: 'clear',
-                                            groupValue: notificationTone,
-                                            onChanged: (newV) {
-                                              setState(() {
-                                                notificationTone = newV ?? '';
-                                              });
-                                            },
-                                          ),
-                                          RadioListTile(
-                                            title: const Text('Element'),
-                                            value: 'element',
-                                            groupValue: notificationTone,
-                                            onChanged: (newV) {
-                                              setState(() {
-                                                notificationTone = newV ?? '';
-                                              });
-                                            },
-                                          ),
-                                          RadioListTile(
-                                            title: const Text('Helium'),
-                                            value: 'helium',
-                                            groupValue: notificationTone,
-                                            onChanged: (newV) {
-                                              setState(() {
-                                                notificationTone = newV ?? '';
-                                              });
-                                            },
-                                          ),
-                                          RadioListTile(
-                                            title: const Text('Hello'),
-                                            value: 'hello',
-                                            groupValue: notificationTone,
-                                            onChanged: (newV) {
-                                              setState(() {
-                                                notificationTone = newV ?? '';
-                                              });
-                                            },
-                                          ),
-                                          RadioListTile(
-                                            title: const Text('Ivory'),
-                                            value: 'ivory',
-                                            groupValue: notificationTone,
-                                            onChanged: (newV) {
-                                              setState(() {
-                                                notificationTone = newV ?? '';
-                                              });
-                                            },
-                                          ),
-                                          RadioListTile(
-                                            title: const Text('Krypton'),
-                                            value: 'Krypton',
-                                            groupValue: notificationTone,
-                                            onChanged: (newV) {
-                                              setState(() {
-                                                notificationTone = newV ?? '';
-                                              });
-                                            },
-                                          ),
-                                          RadioListTile(
-                                            title: const Text('Natural'),
-                                            value: 'natural',
-                                            groupValue: notificationTone,
-                                            onChanged: (newV) {
-                                              setState(() {
-                                                notificationTone = newV ?? '';
-                                              });
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ),
-                                actions: [
-                                  TextButton(
-                                    child: const Text('Cancel'),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                  TextButton(
-                                    child: const Text('OK'),
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                  ),
-                                ],
-                              );
+                      onTap: () async {
+                        // Update only on successful authentication
+                        bool deviceSupported =
+                            await LocalAuthApi.isDeviceSupported();
+                        if (deviceSupported) {
+                          bool autheticated = await LocalAuthApi.authenticate();
+                          if (autheticated) {
+                            final docUser = FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(widget.uid);
+                            docUser.update({
+                              'authenticate': !authenticate,
                             });
+                            Provider.of<UserProvider>(context, listen: false)
+                                .authenticate = !authenticate;
+                          }
+                        } else {
+                          showDialog(
+                              barrierDismissible: true,
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text(
+                                    'Set Up Authentication',
+                                    style: TextStyle(fontSize: 22),
+                                  ),
+                                  content: const Text(
+                                    "To use this feature, you'll need to set up your fingerprint or device password on your device first.",
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      child: const Text('Okay'),
+                                      onPressed: () {
+                                        if (!context.mounted) return;
+                                        Navigator.pop(context);
+                                      },
+                                    )
+                                  ],
+                                );
+                              });
+                        }
                       },
                       child: ListTile(
                         title: Text(
-                          'Notification Sound',
+                          'Authentication Lock',
                           style: TextStyle(
                             fontSize: ht > 850 ? 19 : 15,
                             fontFamily: 'latoreg',
                           ),
                         ),
+                        subtitle: const Text(
+                          'Use fingerprint or device password to open ByteChat',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        trailing: CupertinoSwitch(
+                          value: authenticate,
+                          onChanged: (newVal) async {
+                            debugPrint('Inside authentication lock switch');
+
+                            // Update only on successful authentication
+                            bool deviceSupported =
+                                await LocalAuthApi.isDeviceSupported();
+                            if (deviceSupported) {
+                              bool autheticated =
+                                  await LocalAuthApi.authenticate();
+                              if (autheticated) {
+                                debugPrint('User has selected $newVal');
+                                Provider.of<UserProvider>(context,
+                                        listen: false)
+                                    .authenticate = newVal;
+                                final docUser = FirebaseFirestore.instance
+                                    .collection('users')
+                                    .doc(widget.uid);
+                                await docUser.update({
+                                  'authenticate': newVal,
+                                });
+                              }
+                            } else {
+                              showDialog(
+                                  barrierDismissible: true,
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text(
+                                        'Set Up Authentication',
+                                        style: TextStyle(fontSize: 22),
+                                      ),
+                                      content: const Text(
+                                        "To use this feature, you'll need to set up your fingerprint or device password on your device first.",
+                                        style: TextStyle(fontSize: 18),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          child: const Text('Okay'),
+                                          onPressed: () {
+                                            if (!context.mounted) return;
+                                            Navigator.pop(context);
+                                          },
+                                        )
+                                      ],
+                                    );
+                                  });
+                            }
+                          },
+                        ),
                       ),
                     ),
+
+                    // Notification Sound
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     showDialog(
+                    //         context: context,
+                    //         builder: (BuildContext context) {
+                    //           return AlertDialog(
+                    //             title: const Text('Notification Tone'),
+                    //             titleTextStyle: const TextStyle(
+                    //               fontSize: 18,
+                    //               color: Colors.black,
+                    //             ),
+                    //             content: StatefulBuilder(
+                    //               builder: (BuildContext context,
+                    //                   StateSetter setState) {
+                    //                 return SingleChildScrollView(
+                    //                   child: Column(
+                    //                     children: [
+                    //                       RadioListTile(
+                    //                         title:
+                    //                             const Text('Default Ringtone'),
+                    //                         value: 'default',
+                    //                         groupValue: notificationTone,
+                    //                         onChanged: (newValue) {
+                    //                           setState(() {
+                    //                             notificationTone =
+                    //                                 newValue ?? '';
+                    //                           });
+                    //                         },
+                    //                       ),
+                    //                       RadioListTile(
+                    //                         title: const Text('None'),
+                    //                         value: 'none',
+                    //                         groupValue: notificationTone,
+                    //                         onChanged: (newVal) {
+                    //                           setState(() {
+                    //                             notificationTone = newVal ?? '';
+                    //                           });
+                    //                         },
+                    //                       ),
+                    //                       RadioListTile(
+                    //                         title: const Text('Argon'),
+                    //                         value: 'argon',
+                    //                         groupValue: notificationTone,
+                    //                         onChanged: (newV) {
+                    //                           setState(() {
+                    //                             notificationTone = newV ?? '';
+                    //                           });
+                    //                         },
+                    //                       ),
+                    //                       RadioListTile(
+                    //                         title: const Text('Attentive'),
+                    //                         value: 'attentive',
+                    //                         groupValue: notificationTone,
+                    //                         onChanged: (newV) {
+                    //                           setState(() {
+                    //                             notificationTone = newV ?? '';
+                    //                           });
+                    //                         },
+                    //                       ),
+                    //                       RadioListTile(
+                    //                         title: const Text('BeepBeep'),
+                    //                         value: 'beepbeep',
+                    //                         groupValue: notificationTone,
+                    //                         onChanged: (newV) {
+                    //                           setState(() {
+                    //                             notificationTone = newV ?? '';
+                    //                           });
+                    //                         },
+                    //                       ),
+                    //                       RadioListTile(
+                    //                         title: const Text('bird'),
+                    //                         value: 'bird',
+                    //                         groupValue: notificationTone,
+                    //                         onChanged: (newV) {
+                    //                           setState(() {
+                    //                             notificationTone = newV ?? '';
+                    //                           });
+                    //                         },
+                    //                       ),
+                    //                       RadioListTile(
+                    //                         title: const Text('buzzer'),
+                    //                         value: 'buzzer',
+                    //                         groupValue: notificationTone,
+                    //                         onChanged: (newV) {
+                    //                           setState(() {
+                    //                             notificationTone = newV ?? '';
+                    //                           });
+                    //                         },
+                    //                       ),
+                    //                       RadioListTile(
+                    //                         title: const Text('carbon'),
+                    //                         value: 'carbon',
+                    //                         groupValue: notificationTone,
+                    //                         onChanged: (newV) {
+                    //                           setState(() {
+                    //                             notificationTone = newV ?? '';
+                    //                           });
+                    //                         },
+                    //                       ),
+                    //                       RadioListTile(
+                    //                         title: const Text('Chime'),
+                    //                         value: 'chime',
+                    //                         groupValue: notificationTone,
+                    //                         onChanged: (newV) {
+                    //                           setState(() {
+                    //                             notificationTone = newV ?? '';
+                    //                           });
+                    //                         },
+                    //                       ),
+                    //                       RadioListTile(
+                    //                         title: const Text('Clear'),
+                    //                         value: 'clear',
+                    //                         groupValue: notificationTone,
+                    //                         onChanged: (newV) {
+                    //                           setState(() {
+                    //                             notificationTone = newV ?? '';
+                    //                           });
+                    //                         },
+                    //                       ),
+                    //                       RadioListTile(
+                    //                         title: const Text('Element'),
+                    //                         value: 'element',
+                    //                         groupValue: notificationTone,
+                    //                         onChanged: (newV) {
+                    //                           setState(() {
+                    //                             notificationTone = newV ?? '';
+                    //                           });
+                    //                         },
+                    //                       ),
+                    //                       RadioListTile(
+                    //                         title: const Text('Helium'),
+                    //                         value: 'helium',
+                    //                         groupValue: notificationTone,
+                    //                         onChanged: (newV) {
+                    //                           setState(() {
+                    //                             notificationTone = newV ?? '';
+                    //                           });
+                    //                         },
+                    //                       ),
+                    //                       RadioListTile(
+                    //                         title: const Text('Hello'),
+                    //                         value: 'hello',
+                    //                         groupValue: notificationTone,
+                    //                         onChanged: (newV) {
+                    //                           setState(() {
+                    //                             notificationTone = newV ?? '';
+                    //                           });
+                    //                         },
+                    //                       ),
+                    //                       RadioListTile(
+                    //                         title: const Text('Ivory'),
+                    //                         value: 'ivory',
+                    //                         groupValue: notificationTone,
+                    //                         onChanged: (newV) {
+                    //                           setState(() {
+                    //                             notificationTone = newV ?? '';
+                    //                           });
+                    //                         },
+                    //                       ),
+                    //                       RadioListTile(
+                    //                         title: const Text('Krypton'),
+                    //                         value: 'Krypton',
+                    //                         groupValue: notificationTone,
+                    //                         onChanged: (newV) {
+                    //                           setState(() {
+                    //                             notificationTone = newV ?? '';
+                    //                           });
+                    //                         },
+                    //                       ),
+                    //                       RadioListTile(
+                    //                         title: const Text('Natural'),
+                    //                         value: 'natural',
+                    //                         groupValue: notificationTone,
+                    //                         onChanged: (newV) {
+                    //                           setState(() {
+                    //                             notificationTone = newV ?? '';
+                    //                           });
+                    //                         },
+                    //                       ),
+                    //                     ],
+                    //                   ),
+                    //                 );
+                    //               },
+                    //             ),
+                    //             actions: [
+                    //               TextButton(
+                    //                 child: const Text('Cancel'),
+                    //                 onPressed: () {
+                    //                   Navigator.pop(context);
+                    //                 },
+                    //               ),
+                    //               TextButton(
+                    //                 child: const Text('OK'),
+                    //                 onPressed: () {
+                    //                   Navigator.pop(context);
+                    //                 },
+                    //               ),
+                    //             ],
+                    //           );
+                    //         });
+                    //   },
+                    //   child: ListTile(
+                    //     title: Text(
+                    //       'Notification Sound',
+                    //       style: TextStyle(
+                    //         fontSize: ht > 850 ? 19 : 15,
+                    //         fontFamily: 'latoreg',
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     // Feedback
                     GestureDetector(
                       onTap: () async {

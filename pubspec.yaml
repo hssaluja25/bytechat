@@ -44,6 +44,7 @@ dependencies:
   firebase_storage: ^11.5.2
   audioplayers: ^5.2.1
   flutter_svg: ^2.0.9
+  local_auth: ^2.1.7
 
 flutter_launcher_icons:
   android: true

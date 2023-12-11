@@ -60,6 +60,9 @@ class _HomeState extends State<Home> {
         // Setting enterIsSend in provider
         Provider.of<UserProvider>(context, listen: false).enterIsSend =
             data['enterIsSend'];
+        // Setting authenticate in provider
+        Provider.of<UserProvider>(context, listen: false).authenticate =
+            data['authenticate'];
       } else {
         debugPrint(
             "This should never happen. There is no corresponding Firestore doc for this user. Hence, can't read username, status and avatar");

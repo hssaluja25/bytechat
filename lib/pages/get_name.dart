@@ -73,6 +73,7 @@ class _GetNameState extends State<GetName> {
                                 : downloadUrl,
                             'conversationTone': true,
                             'enterIsSend': false,
+                            'authenticate': false,
                           });
                           setState(() {
                             gottenName = true;
