@@ -6,11 +6,13 @@ class UserProvider with ChangeNotifier {
   String _status = '';
   String _avatar = '';
   bool _play = true;
+  bool _enterIsSend = false;
 
   String get name => _name;
   String get status => _status;
   String get avatar => _avatar;
   bool get play => _play;
+  bool get enterIsSend => _enterIsSend;
 
   set name(String newVal) {
     _name = newVal;
@@ -29,6 +31,11 @@ class UserProvider with ChangeNotifier {
 
   set play(bool newVal) {
     _play = newVal;
+    notifyListeners();
+  }
+
+  set enterIsSend(bool newVal) {
+    _enterIsSend = newVal;
     notifyListeners();
   }
 }

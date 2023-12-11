@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:learning_once_again/providers/user_provider.dart';
+import 'package:learning_once_again/services/chat_service.dart';
+import 'package:provider/provider.dart';
 
 class MyTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final bool obscureText;
   final TextEditingController? passwordController;
+  final ChatService? chatService;
+  final String? receiverId;
+  final bool? playSound;
 
   const MyTextField({
     super.key,
@@ -12,10 +18,14 @@ class MyTextField extends StatelessWidget {
     required this.hintText,
     required this.obscureText,
     this.passwordController,
+    this.chatService,
+    this.receiverId,
+    this.playSound,
   });
 
   @override
   Widget build(BuildContext context) {
+    bool enterIsSend = Provider.of<UserProvider>(context).enterIsSend;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: TextFormField(
@@ -38,6 +48,20 @@ class MyTextField extends StatelessWidget {
         },
         controller: controller,
         obscureText: obscureText,
+        onFieldSubmitted: (String text) async {
+          if (enterIsSend) {
+            if (hintText == 'Enter message') {
+              if (controller.text.isNotEmpty) {
+                await chatService?.sendMessage(
+                  message: controller.text,
+                  receiverId: receiverId ?? '',
+                  playSound: playSound ?? true,
+                );
+                controller.clear();
+              }
+            }
+          }
+        },
         decoration: InputDecoration(
           enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.white),

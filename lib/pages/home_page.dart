@@ -57,6 +57,9 @@ class _HomeState extends State<Home> {
         // Setting the conversation tone in provider
         Provider.of<UserProvider>(context, listen: false).play =
             data['conversationTone'];
+        // Setting enterIsSend in provider
+        Provider.of<UserProvider>(context, listen: false).enterIsSend =
+            data['enterIsSend'];
       } else {
         debugPrint(
             "This should never happen. There is no corresponding Firestore doc for this user. Hence, can't read username, status and avatar");

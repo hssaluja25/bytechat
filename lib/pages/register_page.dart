@@ -6,7 +6,8 @@ import 'package:learning_once_again/components/square_tile.dart';
 import 'package:learning_once_again/services/auth.dart';
 
 class RegisterPage extends StatefulWidget {
-  RegisterPage({super.key, required this.auth, required this.toggleAuthPage});
+  const RegisterPage(
+      {super.key, required this.auth, required this.toggleAuthPage});
   final Function() toggleAuthPage;
   final FirebaseAuth auth;
 

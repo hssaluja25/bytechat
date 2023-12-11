@@ -116,6 +116,9 @@ class _ChatPageState extends State<ChatPage> {
               controller: msgController,
               hintText: 'Enter message',
               obscureText: false,
+              chatService: chatService,
+              receiverId: widget.receiverUserID,
+              playSound: playSound,
             ),
           ),
           // Send button

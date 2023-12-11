@@ -26,7 +26,6 @@ class _AccountInfoState extends State<AccountInfo> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _statusController = TextEditingController();
 
-  bool msgNotifications = true;
   // Select notification sound
   String? notificationTone;
 
@@ -35,6 +34,7 @@ class _AccountInfoState extends State<AccountInfo> {
     double ht = MediaQuery.of(context).size.height;
     double wd = MediaQuery.of(context).size.width;
     bool conversationTones = Provider.of<UserProvider>(context).play;
+    bool enterIsSend = Provider.of<UserProvider>(context).enterIsSend;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -333,30 +333,43 @@ class _AccountInfoState extends State<AccountInfo> {
                         ),
                       ),
                     ),
-                    // Message Notifications
+                    // Enter is Send
                     GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          msgNotifications = !msgNotifications;
+                      onTap: () async {
+                        final docUser = FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(widget.uid);
+                        await docUser.update({
+                          'enterIsSend': !enterIsSend,
                         });
+                        Provider.of<UserProvider>(context, listen: false)
+                            .enterIsSend = !enterIsSend;
                       },
                       child: ListTile(
                         title: Text(
-                          'Message Notifications',
+                          'Enter is send',
                           style: TextStyle(
-                            fontSize: ht > 850 ? 19 : 14,
+                            fontSize: ht > 850 ? 19 : 15,
                             fontFamily: 'latoreg',
                           ),
                         ),
                         subtitle: const Text(
-                          'Get notified when new messages arrive.',
+                          'Enter key will send your message',
                           style: TextStyle(fontSize: 12),
                         ),
                         trailing: CupertinoSwitch(
-                          value: msgNotifications,
-                          onChanged: (newVal) {
-                            setState(() {
-                              msgNotifications = newVal;
+                          value: enterIsSend,
+                          onChanged: (newVal) async {
+                            debugPrint(
+                                "Inside enter is send's cupertino switch handler");
+                            debugPrint('User has selected $newVal');
+                            Provider.of<UserProvider>(context, listen: false)
+                                .enterIsSend = newVal;
+                            final docUser = FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(widget.uid);
+                            await docUser.update({
+                              'enterIsSend': newVal,
                             });
                           },
                         ),
