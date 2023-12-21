@@ -10,8 +10,13 @@
 .svn/
 migrate_working_dir/
 
-# UI files
+# Files used for development
 UI/
+TODO.txt
+RESPONSIVE.txt
+LEARNING.txt
+info.txt
+assets/images/unused/
 
 # Secrets
 android/app/src/main/res/values/strings.xml
@@ -21,10 +26,7 @@ android/app/src/main/res/values/strings.xml
 *.ipr
 *.iws
 .idea/
-TODO.txt
-RESPONSIVE.txt
-LEARNING.txt
-info.txt
+
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.

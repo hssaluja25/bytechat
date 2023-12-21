@@ -99,26 +99,29 @@ class _HomeState extends State<Home> {
             Row(
               children: [
                 // Avatar
-                Container(
-                  margin: const EdgeInsets.only(left: 35),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AccountInfo(
-                            uid: widget.uid,
+                Hero(
+                  tag: 'profile',
+                  child: Container(
+                    margin: const EdgeInsets.only(left: 35),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AccountInfo(
+                              uid: widget.uid,
+                            ),
                           ),
+                        );
+                      },
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(
+                          crtUserAvatar.isEmpty
+                              ? 'https://firebasestorage.googleapis.com/v0/b/learing-auth-mkay.appspot.com/o/images%2Fprofile_pictures%2Fdefault.png?alt=media&token=9771cf0b-9fa3-4b87-bb2b-21013636a2a5'
+                              : crtUserAvatar,
                         ),
-                      );
-                    },
-                    child: CircleAvatar(
-                      backgroundImage: NetworkImage(
-                        crtUserAvatar.isEmpty
-                            ? 'https://firebasestorage.googleapis.com/v0/b/learing-auth-mkay.appspot.com/o/images%2Fprofile_pictures%2Fdefault.png?alt=media&token=9771cf0b-9fa3-4b87-bb2b-21013636a2a5'
-                            : crtUserAvatar,
+                        radius: 50,
                       ),
-                      radius: 50,
                     ),
                   ),
                 ),

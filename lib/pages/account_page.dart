@@ -73,62 +73,67 @@ class _AccountInfoState extends State<AccountInfo> {
                 child: Column(
                   children: [
                     // Avatar
-                    GestureDetector(
-                      onTap: () async {
-                        final storage = FirebaseStorage.instance.ref();
-                        final images = storage.child("images");
-                        final profiles = images.child("profile_pictures");
+                    Hero(
+                      tag: 'profile',
+                      child: GestureDetector(
+                        onTap: () async {
+                          final storage = FirebaseStorage.instance.ref();
+                          final images = storage.child("images");
+                          final profiles = images.child("profile_pictures");
 
-                        final result = await FilePicker.platform
-                            .pickFiles(type: FileType.image);
-                        if (result == null) {
-                          // No file selected; do nothing
-                        } else {
-                          print('user has picked file');
-                          // Show the processing snackbar for a long time and after the process is complete, remove the snackbar
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              backgroundColor: Color.fromARGB(255, 226, 1, 87),
-                              content: Text('Processing'),
-                              duration: Duration(minutes: 5),
-                            ),
-                          );
-                          final file = result.files.first;
-                          final userProfile = profiles.child(widget.uid);
-                          final localFilePath = file.path;
-                          final uploadFile = File(localFilePath ?? '');
-                          // Upload to firebase storage and get the URL for the file
-                          await userProfile.putFile(uploadFile);
-                          final String downloadUrl =
-                              await userProfile.getDownloadURL();
-                          print(downloadUrl);
-                          // change the avatar
-                          Provider.of<UserProvider>(context, listen: false)
-                              .avatar = downloadUrl;
-                          // change the avatar on firestore
-                          final docUser = FirebaseFirestore.instance
-                              .collection('users')
-                              .doc(widget.uid);
-                          await docUser.update({'avatar': downloadUrl});
-                          ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                        }
-                      },
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            Provider.of<UserProvider>(context).avatar),
-                        radius: ht > 850 ? 70 : 60,
-                        child: Align(
-                          alignment: Alignment.bottomRight,
-                          child: Container(
-                            height: 40,
-                            width: 40,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color.fromARGB(255, 226, 1, 87),
-                            ),
-                            child: const Icon(
-                              Icons.edit,
-                              color: Colors.white,
+                          final result = await FilePicker.platform
+                              .pickFiles(type: FileType.image);
+                          if (result == null) {
+                            // No file selected; do nothing
+                          } else {
+                            print('user has picked file');
+                            // Show the processing snackbar for a long time and after the process is complete, remove the snackbar
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                backgroundColor:
+                                    Color.fromARGB(255, 226, 1, 87),
+                                content: Text('Processing'),
+                                duration: Duration(minutes: 5),
+                              ),
+                            );
+                            final file = result.files.first;
+                            final userProfile = profiles.child(widget.uid);
+                            final localFilePath = file.path;
+                            final uploadFile = File(localFilePath ?? '');
+                            // Upload to firebase storage and get the URL for the file
+                            await userProfile.putFile(uploadFile);
+                            final String downloadUrl =
+                                await userProfile.getDownloadURL();
+                            print(downloadUrl);
+                            // change the avatar
+                            Provider.of<UserProvider>(context, listen: false)
+                                .avatar = downloadUrl;
+                            // change the avatar on firestore
+                            final docUser = FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(widget.uid);
+                            await docUser.update({'avatar': downloadUrl});
+                            ScaffoldMessenger.of(context)
+                                .removeCurrentSnackBar();
+                          }
+                        },
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              Provider.of<UserProvider>(context).avatar),
+                          radius: ht > 850 ? 70 : 60,
+                          child: Align(
+                            alignment: Alignment.bottomRight,
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color.fromARGB(255, 226, 1, 87),
+                              ),
+                              child: const Icon(
+                                Icons.edit,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
